@@ -4,12 +4,12 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#1A1A2E] text-[#6B7280]">
+    <footer className="bg-ink text-muted">
       <div className="mobile-container">
         <div className="px-5 py-8">
           {/* 브랜드 */}
           <div className="mb-5">
-            <span className="text-lg font-bold text-[#6366F1]">심랩</span>
+            <span className="text-lg font-bold text-brand-dark">심랩</span>
             <p className="mt-1 text-xs leading-relaxed">
               심심할 때 찾는 연구소 · 마음을 연구하는 연구소
             </p>
@@ -17,13 +17,13 @@ export default function Footer() {
 
           {/* 링크 */}
           <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs mb-6">
-            <Link href="/legal/privacy" className="hover:text-[#6366F1] transition-colors">
+            <Link href="/legal/privacy" className="hover:text-brand-light transition-colors">
               개인정보처리방침
             </Link>
-            <Link href="/legal/terms" className="hover:text-[#6366F1] transition-colors">
+            <Link href="/legal/terms" className="hover:text-brand-light transition-colors">
               이용약관
             </Link>
-            <Link href="/legal/disclaimer" className="hover:text-[#6366F1] transition-colors">
+            <Link href="/legal/disclaimer" className="hover:text-brand-light transition-colors">
               면책고지
             </Link>
           </div>

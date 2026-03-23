@@ -1,9 +1,10 @@
 // ContentGrid — 카테고리별 콘텐츠 카드
-// 카테고리: 빠른 서비스 (사주·메뉴) / 테스트 (감정·동물상·이상형)
+// 카테고리: 빠른 서비스 (사주·메뉴) / 테스트 (감정·동물상·이상형·MBTI)
 // 모바일: 가로 캐러셀 / 데스크탑(sm+): 그리드
 
 import Link from 'next/link';
 import {
+  Brain,
   FlaskConical,
   HeartHandshake,
   LucideIcon,
@@ -73,13 +74,23 @@ const TESTS: ContentItem[] = [
   },
   {
     id: 'ideal-type',
-    title: 'MBTI 테스트',
+    title: '이상형 성향 테스트',
     subtitle: '나의 이상형 성향 분석',
     href: '/ideal-type',
     tag: '',
     tagStyle: '',
     gradient: 'from-pink-500 via-rose-400 to-red-400',
     Icon: HeartHandshake,
+  },
+  {
+    id: 'mbti',
+    title: 'MBTI 테스트',
+    subtitle: '16가지 성격 유형 · 비율 그래프',
+    href: '/mbti',
+    tag: 'NEW',
+    tagStyle: 'bg-white/90 text-indigo-600',
+    gradient: 'from-indigo-500 via-violet-500 to-purple-600',
+    Icon: Brain,
   },
 ];
 
@@ -114,8 +125,8 @@ function ContentCard({ Icon, ...item }: ContentItem) {
 
       {/* 텍스트 영역 */}
       <div className="px-3 pt-2.5 pb-3">
-        <p className="text-[10px] text-[#6B7280] leading-tight truncate">{item.subtitle}</p>
-        <p className="text-[13px] font-bold text-[#1A1A2E] mt-0.5 leading-tight truncate">{item.title}</p>
+        <p className="text-[10px] text-muted leading-tight truncate">{item.subtitle}</p>
+        <p className="text-[13px] font-bold text-ink mt-0.5 leading-tight truncate">{item.title}</p>
       </div>
     </Link>
   );
@@ -140,9 +151,9 @@ function CategorySection({
     <div className="mb-7 last:mb-0">
       {/* 카테고리 헤더 */}
       <div className="flex items-center gap-1.5 mb-3 px-1">
-        <HeaderIcon size={16} className="text-[#312E81]" strokeWidth={2.2} />
-        <h3 className="text-[14px] font-bold text-[#1A1A2E]">{title}</h3>
-        <span className="text-[11px] text-[#9CA3AF] ml-1">{items.length}개</span>
+        <HeaderIcon size={16} className="text-brand" strokeWidth={2.2} />
+        <h3 className="text-[14px] font-bold text-ink">{title}</h3>
+        <span className="text-[11px] text-gray-400 ml-1">{items.length}개</span>
       </div>
 
       {/* 모바일: 가로 캐러셀 */}
@@ -176,12 +187,12 @@ export default function ContentGrid() {
       {/* 섹션 헤더 */}
       <div className="flex items-center justify-between mb-6 px-1">
         <div className="flex items-center gap-2">
-          <FlaskConical size={20} className="text-[#312E81]" strokeWidth={2} />
-          <h2 className="text-lg font-bold text-[#1A1A2E]">모든 콘텐츠</h2>
+          <FlaskConical size={20} className="text-brand" strokeWidth={2} />
+          <h2 className="text-lg font-bold text-ink">모든 콘텐츠</h2>
         </div>
         <Link
           href="/all"
-          className="text-[12px] text-[#312E81] font-medium hover:underline underline-offset-2"
+          className="text-[12px] text-brand font-medium hover:underline underline-offset-2"
         >
           전체보기 →
         </Link>

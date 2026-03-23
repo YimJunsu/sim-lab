@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
   ArrowRight,
+  Brain,
   FlaskConical,
   HeartHandshake,
   LockKeyhole,
@@ -49,7 +50,7 @@ const FEATURES: Feature[] = [
     Icon: FlaskConical,
     title: '계속 업데이트 중',
     desc: '새로운 콘텐츠와 기능이 지속적으로 추가되는 성장 중인 연구소입니다.',
-    gradient: 'from-[#312E81] to-[#6366F1]',
+    gradient: 'from-brand to-brand-light',
   },
 ];
 
@@ -93,10 +94,17 @@ const CONTENTS: ContentItem[] = [
   },
   {
     Icon: HeartHandshake,
-    title: 'MBTI 테스트',
+    title: '이상형 성향 테스트',
     desc: '나의 이상형 성향 분석',
     href: '/ideal-type',
     gradient: 'from-pink-500 to-rose-500',
+  },
+  {
+    Icon: Brain,
+    title: 'MBTI 테스트',
+    desc: '16가지 성격 유형 · 비율 그래프',
+    href: '/mbti',
+    gradient: 'from-indigo-500 to-violet-600',
   },
 ];
 
@@ -106,7 +114,7 @@ export default function AboutPage() {
     <div className="w-full">
 
       {/* ── 1. Hero — 다크 그라디언트 배경 ── */}
-      <section className="relative overflow-hidden bg-[#1E1B4B] px-5 py-16 text-center">
+      <section className="relative overflow-hidden bg-brand-dark px-5 py-16 text-center">
         {/* 배경 장식 */}
         <div
           aria-hidden="true"
@@ -116,11 +124,11 @@ export default function AboutPage() {
               'radial-gradient(ellipse 90% 70% at 50% -5%, rgba(99,102,241,0.35) 0%, transparent 65%)',
           }}
         />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 w-56 h-56 rounded-full bg-[#6366F1]/10" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-16 -right-16 w-56 h-56 rounded-full bg-brand-light/10" />
         <div aria-hidden="true" className="pointer-events-none absolute -top-8 -left-8 w-40 h-40 rounded-full bg-white/5" />
 
         {/* 배지 */}
-        <span className="relative mb-6 inline-flex items-center gap-1.5 rounded-full border border-[#6366F1]/50 bg-[#6366F1]/15 px-3 py-1 text-xs font-semibold text-[#818CF8]">
+        <span className="relative mb-6 inline-flex items-center gap-1.5 rounded-full border border-brand-light/50 bg-brand-light/15 px-3 py-1 text-xs font-semibold text-indigo-400">
           <FlaskConical size={12} />
           심심할 때 찾는 연구소
         </span>
@@ -129,7 +137,7 @@ export default function AboutPage() {
         <h1 className="relative mt-3 text-3xl font-black text-white leading-tight">
           놀면서 발견하는
           <br />
-          <span className="text-[#818CF8]">나 자신</span>
+          <span className="text-indigo-400">나 자신</span>
         </h1>
 
         {/* 서브타이틀 */}
@@ -142,7 +150,7 @@ export default function AboutPage() {
         <div className="relative mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/#contents"
-            className="inline-flex items-center gap-2 rounded-xl bg-white text-[#312E81] text-sm font-bold px-6 py-3 hover:bg-[#eef2ff] active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 rounded-xl bg-white text-brand text-sm font-bold px-6 py-3 hover:bg-bg-subtle active:scale-95 transition-all"
           >
             콘텐츠 둘러보기
             <ArrowRight size={15} />
@@ -159,8 +167,8 @@ export default function AboutPage() {
       {/* ── 2. 핵심 가치 ── */}
       <section className="px-5 py-12 bg-white">
         <div className="mb-8 text-center">
-          <h2 className="text-xl font-black text-[#1A1A2E]">왜 심랩일까요?</h2>
-          <p className="mt-2 text-sm text-[#6B7280]">심심풀이 그 이상의 가치를 담았습니다</p>
+          <h2 className="text-xl font-black text-ink">왜 심랩일까요?</h2>
+          <p className="mt-2 text-sm text-muted">심심풀이 그 이상의 가치를 담았습니다</p>
         </div>
 
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -171,10 +179,10 @@ export default function AboutPage() {
       </section>
 
       {/* ── 3. 콘텐츠 목록 ── */}
-      <section className="px-5 py-12 bg-[#f8f9ff]">
+      <section className="px-5 py-12 bg-bg-subtle">
         <div className="mb-8 text-center">
-          <h2 className="text-xl font-black text-[#1A1A2E]">어떤 콘텐츠가 있나요?</h2>
-          <p className="mt-2 text-sm text-[#6B7280]">
+          <h2 className="text-xl font-black text-ink">어떤 콘텐츠가 있나요?</h2>
+          <p className="mt-2 text-sm text-muted">
             현재 {CONTENTS.length}개 · 계속 추가 중
           </p>
         </div>
@@ -187,7 +195,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 4. 마무리 CTA ── */}
-      <section className="px-5 py-14 bg-[#312E81] text-center">
+      <section className="px-5 py-14 bg-brand text-center">
         {/* 장식 */}
         <div aria-hidden="true" className="mx-auto mb-5 flex justify-center">
           <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center">
@@ -203,7 +211,7 @@ export default function AboutPage() {
         </p>
         <Link
           href="/"
-          className="mt-7 inline-flex items-center gap-2 rounded-xl bg-white text-[#312E81] text-sm font-bold px-7 py-3 hover:bg-[#eef2ff] active:scale-95 transition-all"
+          className="mt-7 inline-flex items-center gap-2 rounded-xl bg-white text-brand text-sm font-bold px-7 py-3 hover:bg-bg-subtle active:scale-95 transition-all"
         >
           심랩 바로가기
           <ArrowRight size={15} />
@@ -218,15 +226,15 @@ export default function AboutPage() {
 function FeatureCard({ feature }: { feature: Feature }) {
   const { Icon } = feature;
   return (
-    <li className="flex items-start gap-4 rounded-2xl border border-[#E5E7EB] bg-white p-5 shadow-sm">
+    <li className="flex items-start gap-4 rounded-2xl border border-border bg-white p-5 shadow-sm">
       <div
         className={`flex-shrink-0 w-11 h-11 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center shadow-sm`}
       >
         <Icon size={20} className="text-white" strokeWidth={1.8} />
       </div>
       <div>
-        <h3 className="text-[14px] font-bold text-[#1A1A2E]">{feature.title}</h3>
-        <p className="mt-1 text-[12px] text-[#6B7280] leading-relaxed">{feature.desc}</p>
+        <h3 className="text-[14px] font-bold text-ink">{feature.title}</h3>
+        <p className="mt-1 text-[12px] text-muted leading-relaxed">{feature.desc}</p>
       </div>
     </li>
   );
@@ -239,7 +247,7 @@ function ContentRow({ item }: { item: ContentItem }) {
     <li>
       <Link
         href={item.href}
-        className="group flex items-center gap-4 rounded-2xl bg-white border border-[#E5E7EB] px-4 py-3.5 shadow-sm hover:border-[#312E81]/30 hover:shadow-md active:scale-[0.99] transition-all"
+        className="group flex items-center gap-4 rounded-2xl bg-white border border-border px-4 py-3.5 shadow-sm hover:border-brand/30 hover:shadow-md active:scale-[0.99] transition-all"
       >
         <div
           className={`flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center`}
@@ -247,12 +255,12 @@ function ContentRow({ item }: { item: ContentItem }) {
           <Icon size={18} className="text-white" strokeWidth={1.8} />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-bold text-[#1A1A2E]">{item.title}</p>
-          <p className="text-[11px] text-[#6B7280] truncate">{item.desc}</p>
+          <p className="text-[13px] font-bold text-ink">{item.title}</p>
+          <p className="text-[11px] text-muted truncate">{item.desc}</p>
         </div>
         <ArrowRight
           size={16}
-          className="flex-shrink-0 text-[#E5E7EB] group-hover:text-[#312E81] transition-colors"
+          className="flex-shrink-0 text-border group-hover:text-brand transition-colors"
         />
       </Link>
     </li>

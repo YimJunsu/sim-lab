@@ -15,27 +15,27 @@ export default function Hero() {
       {/* 배경 장식 원 */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-16 -right-16 w-64 h-64 rounded-full bg-[#312E81]/8"
+        className="pointer-events-none absolute -top-16 -right-16 w-64 h-64 rounded-full bg-brand/8"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-[#6366F1]/10"
+        className="pointer-events-none absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-brand-light/10"
       />
       {/* 추가 장식 — 우하단 */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-0 w-32 h-32 rounded-full bg-[#312E81]/5"
+        className="pointer-events-none absolute bottom-0 right-0 w-32 h-32 rounded-full bg-brand/5"
       />
 
       {/* 메인 아이콘 */}
       <div className="relative mb-5 flex justify-center">
-        <div className="w-20 h-20 rounded-2xl bg-[#312E81]/8 flex items-center justify-center">
-          <FlaskConical size={44} className="text-[#312E81]" strokeWidth={1.5} />
+        <div className="w-20 h-20 rounded-2xl bg-brand/8 flex items-center justify-center">
+          <FlaskConical size={44} className="text-brand" strokeWidth={1.5} />
         </div>
       </div>
 
       {/* 헤드라인 — 글자별 pop-bounce */}
-      <h1 className="relative text-[1.85rem] font-black text-[#1A1A2E] leading-tight mb-2">
+      <h1 className="relative text-[1.85rem] font-black text-ink leading-tight mb-2">
         {/* 각 글자에 staggered 딜레이 */}
         <span aria-label={HEADLINE}>
           {HEADLINE.split('').map((char, i) => (
@@ -51,7 +51,7 @@ export default function Hero() {
         </span>
         <br />
         <span
-          className="text-[#312E81] pop-bounce"
+          className="text-brand pop-bounce"
           style={{ animationDelay: `${HEADLINE.length * 0.055 + 0.05}s` }}
         >
           연구소
@@ -59,7 +59,7 @@ export default function Hero() {
       </h1>
 
       {/* 서브카피 */}
-      <p className="relative text-sm text-[#6B7280] leading-relaxed mb-8">
+      <p className="relative text-sm text-muted leading-relaxed mb-8">
         AI 사주, 메뉴 추천, 심리 테스트까지
         <br />
         무료로 즐기는 라이트 콘텐츠
@@ -67,10 +67,10 @@ export default function Hero() {
 
       {/* CTA 버튼 */}
       <div className="relative flex gap-3 justify-center">
-        {/* 서비스 소개 — 콘텐츠 섹션으로 스크롤 */}
+        {/* 서비스 소개 */}
         <a
           href="/about"
-          className="flex flex-1 max-w-[160px] items-center justify-center gap-1.5 rounded-xl bg-[#312E81] text-white text-sm font-bold py-3 px-4 shadow-md shadow-[#312E81]/25 hover:bg-[#1E1B4B] active:scale-95 transition-all"
+          className="flex flex-1 max-w-[160px] items-center justify-center gap-1.5 rounded-xl bg-brand text-white text-sm font-bold py-3 px-4 shadow-md shadow-brand/25 hover:bg-brand-dark active:scale-95 transition-all"
         >
           <FlaskConical size={14} strokeWidth={2} />
           서비스 소개
@@ -78,7 +78,7 @@ export default function Hero() {
         {/* 전체보기 */}
         <Link
           href="/all"
-          className="flex flex-1 max-w-[160px] items-center justify-center gap-1.5 rounded-xl border-2 border-[#312E81] text-[#312E81] text-sm font-bold py-3 px-4 hover:bg-[#eef2ff] active:scale-95 transition-all"
+          className="flex flex-1 max-w-[160px] items-center justify-center gap-1.5 rounded-xl border-2 border-brand text-brand text-sm font-bold py-3 px-4 hover:bg-bg-subtle active:scale-95 transition-all"
         >
           <LayoutGrid size={14} strokeWidth={2} />
           전체보기
