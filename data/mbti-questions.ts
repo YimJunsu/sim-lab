@@ -1,6 +1,15 @@
 // MBTI 질문 데이터
-// 총 48문항 (E-I·N-S·T-F·J-P 각 12개)
-// getRandomQuestions()로 각 차원별 3개씩 총 12문항 랜덤 선택
+// 총 32문항 (E-I·N-S·T-F·J-P 각 8개)
+// 각 질문은 4개 선택지 (A=100, B=67, C=33, D=0점 → 첫 번째 성향 기준)
+// getRandomQuestions()로 차원별 3개씩 총 12문항 랜덤 선택
+//
+// 점수 계산:
+//   dimScore = 선택한 답변의 점수 합산 (0~300)
+//   score(%) = Math.round(dimScore / 300 * 100)
+//   → 가능한 결과값: 0 · 11 · 22 · 33 · 44 · 56 · 67 · 78 · 89 · 100 (10단계)
+//
+// 질문 출처: 16Personalities, TypeFinder(Truity), Humanmetrics 등
+// 인기 MBTI 서비스의 핵심 문항 패턴을 기반으로 구성
 
 export type MBTIDimension = 'EI' | 'NS' | 'TF' | 'JP';
 
@@ -8,385 +17,336 @@ export interface MBTIQuestion {
   id: number;
   dimension: MBTIDimension;
   question: string;
-  optionA: string; // 첫 번째 글자 (E, N, T, J)
-  optionB: string; // 두 번째 글자 (I, S, F, P)
+  optionA: string; // 100점: 강하게 첫 번째 성향 (E/N/T/J)
+  optionB: string; //  67점: 약하게 첫 번째 성향
+  optionC: string; //  33점: 약하게 두 번째 성향
+  optionD: string; //   0점: 강하게 두 번째 성향 (I/S/F/P)
 }
 
 export const MBTI_QUESTIONS: MBTIQuestion[] = [
-  // ── E-I (외향 vs 내향) 1~12 ──
+
+  // ── E-I (외향 vs 내향) ──────────────────────────────────────────────
   {
     id: 1,
     dimension: 'EI',
-    question: '주말에 가장 하고 싶은 것은?',
-    optionA: '친구들과 신나게 놀기',
-    optionB: '집에서 조용히 쉬기',
+    question: '긴 하루를 보낸 후 에너지를 회복하는 방법은?',
+    optionA: '친구나 동료들과 어울리며 신나게 시간을 보낸다',
+    optionB: '소수의 친한 사람과 가벼운 대화를 나눈다',
+    optionC: '주로 혼자 조용히 쉬며 에너지를 충전한다',
+    optionD: '완전히 혼자만의 공간에서 아무것도 하지 않는다',
   },
   {
     id: 2,
     dimension: 'EI',
-    question: '새로운 사람을 만나면 나는?',
-    optionA: '먼저 다가가 말을 건다',
-    optionB: '상대방이 먼저 다가오길 기다린다',
+    question: '새로운 사람들이 많은 자리에서 나는?',
+    optionA: '모르는 사람들에게 먼저 다가가 활발히 어울린다',
+    optionB: '어울리지만 중간중간 혼자 있고 싶은 순간이 생긴다',
+    optionC: '아는 사람 위주로만 교류하며 일찍 자리를 뜬다',
+    optionD: '가능하면 참석하지 않거나 가도 최대한 조용히 있는다',
   },
   {
     id: 3,
     dimension: 'EI',
-    question: '에너지를 얻는 방법은?',
-    optionA: '사람들과 어울리며 활기차게',
-    optionB: '혼자만의 고요한 시간',
+    question: '생각이나 아이디어를 정리할 때 나는?',
+    optionA: '말하면서 정리되고 대화를 통해 아이디어가 발전한다',
+    optionB: '대화도 도움이 되지만 어느 정도 혼자 생각할 시간도 필요하다',
+    optionC: '주로 혼자 정리한 후 결론만 공유하는 편이다',
+    optionD: '반드시 혼자 충분히 생각한 뒤에야 말할 수 있다',
   },
   {
     id: 4,
     dimension: 'EI',
-    question: '모임에서 나는?',
-    optionA: '자연스럽게 대화를 주도한다',
-    optionB: '주로 듣고 관찰한다',
+    question: '혼자 보내는 시간이 길어지면?',
+    optionA: '지루하고 누군가를 빨리 만나고 싶어진다',
+    optionB: '어느 정도는 괜찮지만 슬슬 사람이 그리워진다',
+    optionC: '편안하고 큰 불편함이 없다',
+    optionD: '오히려 충전되고 더 집중이 잘 된다',
   },
   {
     id: 5,
     dimension: 'EI',
-    question: '파티에서 나는?',
-    optionA: '모든 사람과 이야기하며 돌아다닌다',
-    optionB: '친한 몇 명과 깊은 대화를 나눈다',
+    question: '그룹 토론이나 회의에서 나는?',
+    optionA: '먼저 의견을 꺼내고 토론 방향을 자연스럽게 이끈다',
+    optionB: '필요할 때 의견을 내며 다른 사람 말도 경청한다',
+    optionC: '주로 듣고 꼭 필요한 말만 하는 편이다',
+    optionD: '웬만하면 의견을 속으로만 갖고 발언을 최소화한다',
   },
   {
     id: 6,
     dimension: 'EI',
-    question: '생각을 정리할 때 나는?',
-    optionA: '말하면서 정리된다',
-    optionB: '혼자 충분히 생각한 뒤 말한다',
+    question: '주말에 아무 계획이 없다면?',
+    optionA: '친구에게 연락해 모임이나 약속을 만들어낸다',
+    optionB: '만남도 좋고 혼자도 괜찮아 그날그날 결정한다',
+    optionC: '주로 집에서 쉬지만 연락이 오면 나간다',
+    optionD: '완전히 혼자 조용히 보내는 게 가장 편하다',
   },
   {
     id: 7,
     dimension: 'EI',
-    question: '낯선 환경에 놓이면?',
-    optionA: '빠르게 적응하고 친구를 사귄다',
-    optionB: '익숙해지는 데 시간이 걸린다',
+    question: '여러 사람과 오랜 시간 함께 있으면?',
+    optionA: '시간이 갈수록 더 신나고 에너지가 넘친다',
+    optionB: '즐겁지만 중간중간 혼자만의 시간이 필요하다',
+    optionC: '점점 피로해지고 혼자 있고 싶어진다',
+    optionD: '꽤 지치고 빨리 혼자가 되고 싶다',
   },
   {
     id: 8,
     dimension: 'EI',
-    question: '선호하는 소통 방식은?',
-    optionA: '직접 통화하기',
-    optionB: '문자나 메신저',
+    question: '처음 만나는 자리에서 나는?',
+    optionA: '자연스럽게 대화를 시작하고 분위기를 주도한다',
+    optionB: '편안하게 어울리지만 먼저 다가가기는 약간 조심스럽다',
+    optionC: '말을 걸면 응하지만 먼저 시작하기는 어렵다',
+    optionD: '어색하고 빨리 자리가 끝났으면 한다',
   },
+
+  // ── N-S (직관 vs 감각) ──────────────────────────────────────────────
   {
     id: 9,
-    dimension: 'EI',
-    question: '혼자 있는 시간이 길어지면?',
-    optionA: '심심하고 누군가 만나고 싶다',
-    optionB: '오히려 편안하고 충전된다',
+    dimension: 'NS',
+    question: '새 프로젝트를 시작할 때 나는?',
+    optionA: '전체적인 가능성과 비전을 먼저 그려본다',
+    optionB: '큰 방향을 그리되 실행 방법도 함께 고민한다',
+    optionC: '실행 계획을 중심으로 접근하며 가능성은 나중에 본다',
+    optionD: '당장 해야 할 구체적인 첫 단계부터 파악한다',
   },
   {
     id: 10,
-    dimension: 'EI',
-    question: '발표나 무대에 서면?',
-    optionA: '오히려 에너지가 충전된다',
-    optionB: '긴장되고 빨리 끝내고 싶다',
+    dimension: 'NS',
+    question: '대화할 때 더 즐거운 주제는?',
+    optionA: '철학, 미래, 아이디어, 가능성에 관한 이야기',
+    optionB: '이론과 현실을 오가는 넓은 범위의 주제',
+    optionC: '최근 일어난 일이나 현실적인 경험 이야기',
+    optionD: '구체적인 사실, 실용적인 정보와 경험 이야기',
   },
   {
     id: 11,
-    dimension: 'EI',
-    question: '모르는 사람과 단둘이 있을 때?',
-    optionA: '자연스럽게 대화를 시작한다',
-    optionB: '어색해서 조용히 있는다',
+    dimension: 'NS',
+    question: '문제를 해결할 때 나는?',
+    optionA: '직관적으로 번뜩 해결책이 떠오르는 편이다',
+    optionB: '직관과 분석을 함께 활용한다',
+    optionC: '경험과 데이터를 주로 활용한다',
+    optionD: '사실과 데이터를 체계적으로 검토하며 답을 찾는다',
   },
   {
     id: 12,
-    dimension: 'EI',
-    question: '내 인간관계 스타일은?',
-    optionA: '다양한 사람들과 폭넓게',
-    optionB: '소수와 깊고 오래',
+    dimension: 'NS',
+    question: '자신을 표현하는 말로 더 가까운 것은?',
+    optionA: '몽상가, 상상력이 풍부하고 가능성을 즐긴다',
+    optionB: '창의적이지만 현실 감각도 있다',
+    optionC: '현실적이지만 가끔 상상도 즐긴다',
+    optionD: '현실주의자, 있는 그대로를 보고 실용적이다',
   },
-
-  // ── N-S (직관 vs 감각) 13~24 ──
   {
     id: 13,
     dimension: 'NS',
-    question: '새 프로젝트를 시작할 때 나는?',
-    optionA: '미래 가능성과 큰 그림을 본다',
-    optionB: '구체적인 단계와 실행 계획을 세운다',
+    question: '새로운 정보를 접할 때 나는?',
+    optionA: '그 안에 담긴 의미·패턴·가능성을 먼저 본다',
+    optionB: '큰 그림도 보지만 구체적인 사실도 함께 파악한다',
+    optionC: '주로 실용적이고 현실적인 정보에 집중한다',
+    optionD: '구체적인 사실과 세부 사항을 정확하게 파악한다',
   },
   {
     id: 14,
     dimension: 'NS',
-    question: '일상적인 일을 할 때 나는?',
-    optionA: '더 나은 방법을 찾으려 한다',
-    optionB: '검증된 방법을 그대로 따른다',
+    question: '무언가를 배울 때 더 선호하는 방식은?',
+    optionA: '전체 원리와 개념을 이해해야 만족스럽다',
+    optionB: '원리도 알고 싶고 구체적인 예시도 필요하다',
+    optionC: '구체적인 예시를 통해 개념을 익히는 것이 편하다',
+    optionD: '직접 해보며 익히는 실습이 가장 효과적이다',
   },
   {
     id: 15,
     dimension: 'NS',
-    question: '대화할 때 즐거운 주제는?',
-    optionA: '아이디어, 가능성, 미래 이야기',
-    optionB: '실제 경험, 사실, 현실적인 이야기',
+    question: '일상에서 나는?',
+    optionA: '일어나는 모든 일에서 의미와 패턴을 찾으려 한다',
+    optionB: '의미 찾기도 좋지만 현실에도 잘 집중한다',
+    optionC: '주로 현재에 집중하지만 가끔 깊이 생각하기도 한다',
+    optionD: '눈앞에 있는 현실에 충실하며 지금 여기에 집중한다',
   },
   {
     id: 16,
     dimension: 'NS',
-    question: '미래를 생각할 때 나는?',
-    optionA: '다양한 시나리오를 상상한다',
-    optionB: '현실적이고 가능한 것에 집중한다',
+    question: '여행지를 선택할 때 나는?',
+    optionA: '잘 알려지지 않은 독특한 새 곳을 찾아간다',
+    optionB: '색다른 곳도 좋지만 기본 정보는 먼저 확인한다',
+    optionC: '추천받은 곳을 가되 여유가 생기면 탐험한다',
+    optionD: '리뷰가 좋고 검증된 명소를 선택한다',
   },
+
+  // ── T-F (사고 vs 감정) ──────────────────────────────────────────────
   {
     id: 17,
-    dimension: 'NS',
-    question: '문제를 해결할 때 나는?',
-    optionA: '직관적으로 해답이 떠오른다',
-    optionB: '체계적으로 하나씩 분석한다',
+    dimension: 'TF',
+    question: '친구가 심각한 고민을 털어놓으면?',
+    optionA: '원인을 분석하고 실질적인 해결책을 제안한다',
+    optionB: '조언도 하지만 먼저 감정을 이해하려 노력한다',
+    optionC: '공감하며 위로하되 원하면 조언도 건넨다',
+    optionD: '판단이나 조언 없이 감정을 충분히 들어주는 데 집중한다',
   },
   {
     id: 18,
-    dimension: 'NS',
-    question: '즐겨 보는 콘텐츠 장르는?',
-    optionA: 'SF · 판타지 · 철학 · 심리',
-    optionB: '실용서 · 역사 · 다큐 · 실화',
+    dimension: 'TF',
+    question: '중요한 결정을 내릴 때 나는?',
+    optionA: '논리와 데이터로 가장 합리적인 선택을 한다',
+    optionB: '주로 논리적이지만 감정도 어느 정도 반영한다',
+    optionC: '감정과 논리를 고루 반영하되 느낌이 좀 더 크다',
+    optionD: '내 감정과 관련된 사람들의 입장을 가장 중시한다',
   },
   {
     id: 19,
-    dimension: 'NS',
-    question: '디테일과 큰 그림 중 더 중요한 것은?',
-    optionA: '큰 그림과 맥락',
-    optionB: '세부 사항과 정확성',
+    dimension: 'TF',
+    question: '누군가에게 피드백을 줄 때 나는?',
+    optionA: '솔직하고 직접적으로 문제점을 짚어준다',
+    optionB: '솔직하게 말하되 표현 방식에 약간 신경 쓴다',
+    optionC: '칭찬을 먼저 하고 부드럽게 개선점을 말한다',
+    optionD: '상대가 상처받지 않도록 매우 조심스럽게 말한다',
   },
   {
     id: 20,
-    dimension: 'NS',
-    question: '아이디어는 어디서 오는가?',
-    optionA: '갑자기 번뜩 떠오른다',
-    optionB: '경험과 관찰에서 나온다',
+    dimension: 'TF',
+    question: '갈등 상황에서 나는?',
+    optionA: '감정을 배제하고 사실과 논리로 해결하려 한다',
+    optionB: '논리적이지만 상대방 입장도 함께 고려한다',
+    optionC: '상대 감정을 배려하면서 합의점을 찾는다',
+    optionD: '모두의 감정이 다치지 않는 방향을 최우선으로 한다',
   },
   {
     id: 21,
-    dimension: 'NS',
-    question: '처음 보는 물건을 보면?',
-    optionA: '이것으로 뭘 할 수 있을지 상상한다',
-    optionB: '어떻게 작동하는지 파악한다',
+    dimension: 'TF',
+    question: '일에서 더 중요하게 생각하는 것은?',
+    optionA: '결과와 효율, 논리적인 업무 처리',
+    optionB: '성과를 추구하되 팀원 의견도 반영한다',
+    optionC: '팀 분위기와 관계를 중요하게 생각하며 협력한다',
+    optionD: '모두가 편안하게 참여할 수 있는 분위기 조성',
   },
   {
     id: 22,
-    dimension: 'NS',
-    question: '나에 더 가까운 표현은?',
-    optionA: '몽상가, 상상력이 풍부하다',
-    optionB: '현실주의자, 실용적이다',
+    dimension: 'TF',
+    question: '타인에게 감정적인 반응이 보이면?',
+    optionA: '이해하기 어렵고 논리적으로 접근하게 된다',
+    optionB: '이해하려 하지만 어떻게 반응해야 할지 고민된다',
+    optionC: '자연스럽게 감정을 받아주고 공감하는 편이다',
+    optionD: '즉시 감정적으로 연결되고 함께 느끼는 편이다',
   },
   {
     id: 23,
-    dimension: 'NS',
-    question: '여행지에서 나는?',
-    optionA: '알려지지 않은 새로운 곳을 탐험한다',
-    optionB: '유명하고 검증된 곳을 먼저 간다',
+    dimension: 'TF',
+    question: '나의 강점에 더 가까운 것은?',
+    optionA: '냉철한 판단력과 객관적인 분석 능력',
+    optionB: '합리적이면서도 상황을 균형 있게 바라본다',
+    optionC: '공감 능력이 좋고 사람들과 잘 어울린다',
+    optionD: '따뜻한 배려심과 뛰어난 공감 능력',
   },
   {
     id: 24,
-    dimension: 'NS',
-    question: '계획을 세울 때 나는?',
-    optionA: '방향만 대략 잡는다',
-    optionB: '세부 일정까지 꼼꼼히 짠다',
+    dimension: 'TF',
+    question: '옳다고 생각하는 것에 반대 의견이 나오면?',
+    optionA: '논리로 반박하고 틀린 부분을 명확히 짚는다',
+    optionB: '반박하되 상대 의견도 충분히 경청한다',
+    optionC: '내 의견을 부드럽게 말하되 마찰은 피하려 한다',
+    optionD: '분위기가 나빠질까봐 의견 충돌을 최대한 피한다',
   },
 
-  // ── T-F (사고 vs 감정) 25~36 ──
+  // ── J-P (판단 vs 인식) ──────────────────────────────────────────────
   {
     id: 25,
-    dimension: 'TF',
-    question: '친구가 고민을 털어놓으면?',
-    optionA: '해결책과 조언을 준다',
-    optionB: '공감하며 감정을 함께 나눈다',
+    dimension: 'JP',
+    question: '마감이 있는 과제를 받으면?',
+    optionA: '마감 훨씬 전에 계획을 세워 여유 있게 완료한다',
+    optionB: '미리 시작하지만 완료는 마감 가까이에 한다',
+    optionC: '마감이 가까워져야 본격적으로 시작한다',
+    optionD: '마감 직전 집중력이 폭발하며 최고의 결과를 낸다',
   },
   {
     id: 26,
-    dimension: 'TF',
-    question: '결정을 내릴 때 기준은?',
-    optionA: '논리와 객관적 데이터',
-    optionB: '감정과 가치관, 사람',
+    dimension: 'JP',
+    question: '여행을 갈 때 나는?',
+    optionA: '교통·숙박·세부 일정까지 사전에 모두 확정한다',
+    optionB: '큰 일정은 잡되 세부 내용은 현지에서 결정한다',
+    optionC: '방향만 정하고 즉흥적으로 결정하는 것을 즐긴다',
+    optionD: '계획 없이 떠나도 전혀 불안하지 않고 오히려 설렌다',
   },
   {
     id: 27,
-    dimension: 'TF',
-    question: '비판이나 지적을 받으면?',
-    optionA: '내용이 맞으면 담담하게 받아들인다',
-    optionB: '말투나 방식에 상처받기도 한다',
+    dimension: 'JP',
+    question: '예상치 못한 변화가 생기면?',
+    optionA: '스트레스를 받으며 즉시 새로운 계획을 세운다',
+    optionB: '불편하지만 빠르게 적응하며 조정한다',
+    optionC: '큰 불편 없이 유연하게 상황에 맞춰 대처한다',
+    optionD: '오히려 흥미롭고 새로운 상황을 즐긴다',
   },
   {
     id: 28,
-    dimension: 'TF',
-    question: '갈등 상황에서 나는?',
-    optionA: '옳고 그름을 객관적으로 따진다',
-    optionB: '모두의 감정과 입장을 고려한다',
+    dimension: 'JP',
+    question: '결정을 내릴 때 나는?',
+    optionA: '필요한 정보가 갖춰지면 빠르게 결정하고 실행한다',
+    optionB: '결정하고 움직이지만 필요하면 수정한다',
+    optionC: '더 나은 선택지가 있을까봐 결정을 미루는 편이다',
+    optionD: '가능한 한 오래 모든 선택지를 열어두다가 결정한다',
   },
   {
     id: 29,
-    dimension: 'TF',
-    question: '영화를 볼 때 나는?',
-    optionA: '스토리 구조와 논리성을 분석한다',
-    optionB: '감정이입하며 울거나 웃는다',
+    dimension: 'JP',
+    question: '나의 일상은?',
+    optionA: '정해진 루틴이 있고 계획대로 하루를 보낸다',
+    optionB: '어느 정도 구조가 있지만 유연하게 조정한다',
+    optionC: '비교적 자유롭게 그날그날 상황에 맞춰 움직인다',
+    optionD: '즉흥적으로 흘러가는 것이 훨씬 자연스럽다',
   },
   {
     id: 30,
-    dimension: 'TF',
-    question: '더 자연스럽게 나오는 것은?',
-    optionA: '정확하고 직접적인 피드백',
-    optionB: '따뜻한 위로와 칭찬',
+    dimension: 'JP',
+    question: '중요한 업무나 공부를 시작할 때?',
+    optionA: '계획을 먼저 세운 뒤 순서대로 진행한다',
+    optionB: '대략적인 방향을 잡고 시작하며 조정해간다',
+    optionC: '시작하면서 방향을 잡는 편이다',
+    optionD: '바로 뛰어들어 진행하며 계획은 나중에 생각한다',
   },
   {
     id: 31,
-    dimension: 'TF',
-    question: '규칙에 대한 생각은?',
-    optionA: '이유가 있으니 지켜야 한다',
-    optionB: '상황에 따라 유연하게 적용해야 한다',
+    dimension: 'JP',
+    question: '내 방이나 책상 상태는?',
+    optionA: '항상 깔끔하게 정리되어 있어야 마음이 편하다',
+    optionB: '보통은 정돈되어 있지만 가끔 어지러워지기도 한다',
+    optionC: '어느 정도 어질러져 있고 필요할 때 정리한다',
+    optionD: '나만의 방식이 있어 남이 보기엔 어지러워 보인다',
   },
   {
     id: 32,
-    dimension: 'TF',
-    question: '일할 때 더 중요한 것은?',
-    optionA: '결과와 효율',
-    optionB: '팀 분위기와 관계',
-  },
-  {
-    id: 33,
-    dimension: 'TF',
-    question: '누군가 잘못했을 때 나는?',
-    optionA: '사실을 직접적으로 말한다',
-    optionB: '상대방 감정을 배려해 부드럽게 말한다',
-  },
-  {
-    id: 34,
-    dimension: 'TF',
-    question: '내 강점이라면?',
-    optionA: '냉철한 판단력과 분석력',
-    optionB: '따뜻한 공감 능력과 배려심',
-  },
-  {
-    id: 35,
-    dimension: 'TF',
-    question: '타인이 감정적으로 반응할 때?',
-    optionA: '다소 이해하기 어렵다',
-    optionB: '자연스럽게 감정을 받아준다',
-  },
-  {
-    id: 36,
-    dimension: 'TF',
-    question: '더 중요한 것은?',
-    optionA: '진실과 정확성',
-    optionB: '조화와 배려',
-  },
-
-  // ── J-P (판단 vs 인식) 37~48 ──
-  {
-    id: 37,
     dimension: 'JP',
-    question: '일정 관리는?',
-    optionA: '계획대로 진행해야 안심된다',
-    optionB: '그날그날 유연하게 한다',
-  },
-  {
-    id: 38,
-    dimension: 'JP',
-    question: '마감 기한이 있을 때 나는?',
-    optionA: '미리미리 여유 있게 완료한다',
-    optionB: '마감 직전 집중력이 폭발한다',
-  },
-  {
-    id: 39,
-    dimension: 'JP',
-    question: '내 방·책상 상태는?',
-    optionA: '항상 정리정돈이 되어 있다',
-    optionB: '나만의 방식으로 정리되어 있다',
-  },
-  {
-    id: 40,
-    dimension: 'JP',
-    question: '여행 계획은?',
-    optionA: '교통·숙박·일정을 미리 예약한다',
-    optionB: '대략적인 계획만 세우고 즉흥적으로',
-  },
-  {
-    id: 41,
-    dimension: 'JP',
-    question: '결정을 내리는 것은?',
-    optionA: '빠르게 결정하고 실행한다',
-    optionB: '여러 선택지를 열어두다가 결정한다',
-  },
-  {
-    id: 42,
-    dimension: 'JP',
-    question: '할 일 목록(To-do list)에 대해?',
-    optionA: '없으면 불안하다',
-    optionB: '머릿속으로 관리하거나 쓰지 않는다',
-  },
-  {
-    id: 43,
-    dimension: 'JP',
-    question: '예상치 못한 변화가 생기면?',
-    optionA: '스트레스를 받고 계획을 다시 세운다',
-    optionB: '오히려 설레고 적응을 즐긴다',
-  },
-  {
-    id: 44,
-    dimension: 'JP',
-    question: '식당에서 메뉴를 고를 때?',
-    optionA: '빠르게 결정한다',
-    optionB: '오랫동안 고민한다',
-  },
-  {
-    id: 45,
-    dimension: 'JP',
-    question: '주말은?',
-    optionA: '미리 계획해두는 편',
-    optionB: '그날 기분 따라 결정',
-  },
-  {
-    id: 46,
-    dimension: 'JP',
-    question: '여러 일이 동시에 생기면?',
-    optionA: '우선순위를 정해 하나씩 처리한다',
-    optionB: '여러 일을 동시에 처리한다',
-  },
-  {
-    id: 47,
-    dimension: 'JP',
-    question: '쇼핑할 때 나는?',
-    optionA: '필요한 것 목록대로만 산다',
-    optionB: '눈에 띄는 것을 충동적으로 산다',
-  },
-  {
-    id: 48,
-    dimension: 'JP',
-    question: '나에 더 가까운 표현은?',
-    optionA: '체계적이고 계획적인 사람',
-    optionB: '자유롭고 유연한 사람',
+    question: '여러 선택지 중에 골라야 할 때?',
+    optionA: '빠르게 하나를 정하고 그것에 집중한다',
+    optionB: '결정하지만 시간이 있으면 더 검토한다',
+    optionC: '좀 더 탐색하다가 최대한 늦게 결정한다',
+    optionD: '어쩔 수 없을 때까지 모든 선택지를 열어둔다',
   },
 ];
 
-// 각 차원별 3문항 랜덤 선택 → 총 12문항 섞어서 반환
+// 선택지 → 점수 매핑 (첫 번째 성향 기준)
+export const CHOICE_SCORES = { A: 100, B: 67, C: 33, D: 0 } as const;
+export type Choice = keyof typeof CHOICE_SCORES;
+
+// 차원별 3문항 랜덤 선택 → 총 12문항 섞어서 반환
 export function getRandomQuestions(): MBTIQuestion[] {
-  const byDimension: Record<MBTIDimension, MBTIQuestion[]> = {
-    EI: [],
-    NS: [],
-    TF: [],
-    JP: [],
-  };
+  const byDim: Record<MBTIDimension, MBTIQuestion[]> = { EI: [], NS: [], TF: [], JP: [] };
 
   for (const q of MBTI_QUESTIONS) {
-    byDimension[q.dimension].push(q);
+    byDim[q.dimension].push(q);
+  }
+
+  function shuffle<T>(arr: T[]): T[] {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   }
 
   const selected: MBTIQuestion[] = [];
   for (const dim of ['EI', 'NS', 'TF', 'JP'] as MBTIDimension[]) {
-    // Fisher-Yates shuffle
-    const arr = [...byDimension[dim]];
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    selected.push(...arr.slice(0, 3));
+    selected.push(...shuffle(byDim[dim]).slice(0, 3));
   }
 
-  // 12문항 전체 섞기
-  for (let i = selected.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [selected[i], selected[j]] = [selected[j], selected[i]];
-  }
-
-  return selected;
+  return shuffle(selected);
 }

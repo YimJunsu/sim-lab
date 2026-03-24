@@ -8,12 +8,12 @@ import { useState, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
-  RotateCcw, Heart, ChevronRight, Share2, Link2, Check, Twitter,
+  RotateCcw, Heart, ChevronRight, ChevronDown, Share2, Link2, Check, Twitter,
   Landmark, FlaskConical, Trophy, Zap, Moon, Leaf, Star, Palette,
   ClipboardList, Shield, Scale, Handshake, Wrench, Paintbrush, Rocket, Music,
   type LucideIcon,
 } from 'lucide-react';
-import { MBTI_TYPES, DIMENSION_LABELS, DIMENSION_COLORS } from '@/data/mbti-data';
+import { MBTI_TYPES, DIMENSION_LABELS, DIMENSION_COLORS, getCompatibleReason } from '@/data/mbti-data';
 
 // MBTI 유형 → lucide-react 아이콘 매핑
 const TYPE_ICONS: Record<string, LucideIcon> = {
@@ -37,68 +37,132 @@ function DimensionBar({
   const dominant = scoreA >= scoreB ? 'A' : 'B';
 
   return (
-    <div className="mb-5">
-      {/* 레이블 행 */}
-      <div className="flex justify-between items-center mb-2">
-        <div className="flex items-center gap-1.5">
-          <span className={`text-xs font-extrabold ${dominant === 'A' ? colors.textA : 'text-gray-300'}`}>
+    <div className="mb-6">
+      {/* 레이블 행: 양쪽 트레이트 이름 */}
+      <div className="flex justify-between items-center mb-2.5">
+        {/* A쪽 */}
+        <div className="flex items-center gap-2">
+          <span className={`text-sm font-extrabold ${dominant === 'A' ? colors.textA : 'text-gray-400'}`}>
             {labels.A}
           </span>
-          <span className={`text-[11px] ${dominant === 'A' ? 'text-gray-500' : 'text-gray-300'}`}>
+          <span className={`text-xs font-medium ${dominant === 'A' ? 'text-gray-600' : 'text-gray-400'}`}>
             {labels.nameA}
           </span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className={`text-[11px] ${dominant === 'B' ? 'text-gray-500' : 'text-gray-300'}`}>
+        {/* B쪽 */}
+        <div className="flex items-center gap-2">
+          <span className={`text-xs font-medium ${dominant === 'B' ? 'text-gray-600' : 'text-gray-400'}`}>
             {labels.nameB}
           </span>
-          <span className={`text-xs font-extrabold ${dominant === 'B' ? colors.textB : 'text-gray-300'}`}>
+          <span className={`text-sm font-extrabold ${dominant === 'B' ? colors.textB : 'text-gray-400'}`}>
             {labels.B}
           </span>
         </div>
       </div>
 
-      {/* 바 트랙 */}
-      <div className="relative h-6 bg-gray-100 rounded-full overflow-hidden">
-        {/* A 쪽 (왼쪽) */}
+      {/* 바 트랙: flex 레이아웃으로 A/B 바가 정확히 맞붙음 */}
+      <div className="relative h-9 bg-gray-100 rounded-full overflow-hidden flex">
+        {/* A 쪽 (왼쪽) — 외곽 rounding은 부모 overflow-hidden이 처리 */}
         <div
-          className={`absolute left-0 top-0 h-full ${colors.barA} rounded-full transition-all duration-700`}
+          className={`h-full ${colors.barA} transition-all duration-700 flex items-center justify-end pr-2.5`}
           style={{ width: `${scoreA}%` }}
-        />
+        >
+          {scoreA > 20 && (
+            <span className="text-white text-xs font-bold drop-shadow-sm">{scoreA}%</span>
+          )}
+        </div>
         {/* B 쪽 (오른쪽) */}
         <div
-          className={`absolute right-0 top-0 h-full ${colors.barB} rounded-full transition-all duration-700`}
+          className={`h-full ${colors.barB} transition-all duration-700 flex items-center justify-start pl-2.5`}
           style={{ width: `${scoreB}%` }}
-        />
-        {/* 중앙 구분선 */}
-        <div className="absolute left-1/2 top-0 h-full w-0.5 bg-white z-10 -translate-x-1/2" />
+        >
+          {scoreB > 20 && (
+            <span className="text-white text-xs font-bold drop-shadow-sm">{scoreB}%</span>
+          )}
+        </div>
+        {/* 중앙 기준선 (50% 위치) */}
+        <div className="absolute left-1/2 top-1 bottom-1 w-px bg-white/50 z-10 -translate-x-1/2" />
       </div>
 
-      {/* 수치 */}
-      <div className="flex justify-between text-[11px] mt-1">
-        <span className={dominant === 'A' ? colors.textA : 'text-gray-300'}>{scoreA}%</span>
-        <span className={dominant === 'B' ? colors.textB : 'text-gray-300'}>{scoreB}%</span>
+      {/* 바깥 수치: 바가 좁아 내부 표시 불가능한 경우 fallback */}
+      <div className="flex justify-between mt-1.5">
+        <span className={`text-xs font-semibold ${dominant === 'A' ? colors.textA : 'text-gray-400'}`}>
+          {scoreA <= 18 ? `${scoreA}%` : ''}
+        </span>
+        <span className={`text-xs font-semibold ${dominant === 'B' ? colors.textB : 'text-gray-400'}`}>
+          {scoreB <= 18 ? `${scoreB}%` : ''}
+        </span>
       </div>
     </div>
   );
 }
 
+// 유형별 카드 액센트 (차분한 단색 팔레트)
+const TYPE_ACCENTS: Record<string, { bar: string; iconBg: string; iconText: string; badge: string }> = {
+  INTJ: { bar: 'bg-slate-400',   iconBg: 'bg-slate-50',   iconText: 'text-slate-500',   badge: 'bg-slate-100 text-slate-600'   },
+  INTP: { bar: 'bg-blue-400',    iconBg: 'bg-blue-50',    iconText: 'text-blue-500',    badge: 'bg-blue-50 text-blue-700'      },
+  ENTJ: { bar: 'bg-amber-500',   iconBg: 'bg-amber-50',   iconText: 'text-amber-600',   badge: 'bg-amber-50 text-amber-700'    },
+  ENTP: { bar: 'bg-yellow-400',  iconBg: 'bg-yellow-50',  iconText: 'text-yellow-600',  badge: 'bg-yellow-50 text-yellow-700'  },
+  INFJ: { bar: 'bg-violet-400',  iconBg: 'bg-violet-50',  iconText: 'text-violet-500',  badge: 'bg-violet-50 text-violet-700'  },
+  INFP: { bar: 'bg-emerald-400', iconBg: 'bg-emerald-50', iconText: 'text-emerald-600', badge: 'bg-emerald-50 text-emerald-700'},
+  ENFJ: { bar: 'bg-rose-400',    iconBg: 'bg-rose-50',    iconText: 'text-rose-500',    badge: 'bg-rose-50 text-rose-700'      },
+  ENFP: { bar: 'bg-orange-400',  iconBg: 'bg-orange-50',  iconText: 'text-orange-600',  badge: 'bg-orange-50 text-orange-700'  },
+  ISTJ: { bar: 'bg-stone-400',   iconBg: 'bg-stone-50',   iconText: 'text-stone-500',   badge: 'bg-stone-100 text-stone-600'   },
+  ISFJ: { bar: 'bg-sky-400',     iconBg: 'bg-sky-50',     iconText: 'text-sky-500',     badge: 'bg-sky-50 text-sky-700'        },
+  ESTJ: { bar: 'bg-indigo-400',  iconBg: 'bg-indigo-50',  iconText: 'text-indigo-500',  badge: 'bg-indigo-50 text-indigo-700'  },
+  ESFJ: { bar: 'bg-pink-400',    iconBg: 'bg-pink-50',    iconText: 'text-pink-500',    badge: 'bg-pink-50 text-pink-700'      },
+  ISTP: { bar: 'bg-zinc-400',    iconBg: 'bg-zinc-50',    iconText: 'text-zinc-500',    badge: 'bg-zinc-100 text-zinc-600'     },
+  ISFP: { bar: 'bg-fuchsia-400', iconBg: 'bg-fuchsia-50', iconText: 'text-fuchsia-500', badge: 'bg-fuchsia-50 text-fuchsia-700'},
+  ESTP: { bar: 'bg-red-400',     iconBg: 'bg-red-50',     iconText: 'text-red-500',     badge: 'bg-red-50 text-red-700'        },
+  ESFP: { bar: 'bg-yellow-400',  iconBg: 'bg-yellow-50',  iconText: 'text-yellow-600',  badge: 'bg-yellow-50 text-yellow-700'  },
+};
+
 // ── 궁합 유형 카드 ──
-function CompatibleCard({ type }: { type: string }) {
+function CompatibleCard({ type, myType }: { type: string; myType: string }) {
   const info = MBTI_TYPES[type];
   if (!info) return null;
 
   const Icon = TYPE_ICONS[type] ?? Star;
+  const reason = getCompatibleReason(myType, type);
+  const accent = TYPE_ACCENTS[type] ?? {
+    bar: 'bg-gray-300', iconBg: 'bg-gray-50', iconText: 'text-gray-500', badge: 'bg-gray-100 text-gray-600',
+  };
 
   return (
-    <div className={`flex items-center gap-4 bg-gradient-to-r ${info.color} rounded-2xl px-4 py-4`}>
-      {/* 아이콘 원형 */}
-      <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-        <Icon size={22} className="text-white" strokeWidth={1.8} />
-      </div>
-      <div>
-        <p className="text-sm font-extrabold text-white">{info.type}</p>
-        <p className="text-xs text-white/80 mt-0.5">{info.title}</p>
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex">
+      {/* 좌측 컬러 액센트 바 */}
+      <div className={`w-1 flex-shrink-0 ${accent.bar}`} />
+
+      {/* 카드 콘텐츠 */}
+      <div className="flex-1 px-4 py-4">
+        {/* 아이콘 + 유형 정보 */}
+        <div className="flex items-center gap-3 mb-3">
+          <div className={`w-10 h-10 rounded-xl ${accent.iconBg} flex items-center justify-center flex-shrink-0`}>
+            <Icon size={20} className={accent.iconText} strokeWidth={1.8} />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="text-base font-extrabold text-ink tracking-wide">{info.type}</span>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${accent.badge}`}>
+                {info.title}
+              </span>
+            </div>
+            {/* 특징 태그 */}
+            <div className="flex gap-1 flex-wrap">
+              {info.traits.slice(0, 3).map((trait) => (
+                <span key={trait} className="text-[10px] text-gray-400 font-medium">
+                  #{trait}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* 궁합 이유 블록 */}
+        <div className="bg-gray-50 rounded-xl px-3 py-2.5">
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">잘 맞는 이유</p>
+          <p className="text-xs text-gray-600 leading-relaxed">{reason}</p>
+        </div>
       </div>
     </div>
   );
@@ -201,7 +265,7 @@ function ShareSection({
         {/* Web Share API — 모바일에서 KakaoTalk 포함 네이티브 시트 표시 */}
         <button
           onClick={handleNativeShare}
-          className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-bold text-sm shadow-sm active:scale-[0.98] transition-transform"
+          className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-brand text-white font-bold text-sm shadow-sm active:scale-[0.98] transition-transform"
         >
           <Share2 size={16} strokeWidth={2.5} />
           공유하기
@@ -248,6 +312,7 @@ function ShareSection({
 // ── 메인 결과 컴포넌트 ──
 export default function MBTIResultClient() {
   const searchParams = useSearchParams();
+  const [isCompatibleOpen, setIsCompatibleOpen] = useState(false);
 
   // URL 파라미터 파싱
   const rawType = searchParams.get('type') ?? '';
@@ -293,7 +358,7 @@ export default function MBTIResultClient() {
 
       {/* ── 차원별 비율 그래프 ── */}
       <section className="bg-white rounded-3xl shadow-sm border border-indigo-50 px-5 py-6 mb-5">
-        <h2 className="text-sm font-extrabold text-ink mb-5">성향 분포</h2>
+        <h2 className="text-sm font-extrabold text-ink mb-6">성향 분포</h2>
         <DimensionBar dimension="EI" scoreA={eScore} />
         <DimensionBar dimension="NS" scoreA={nScore} />
         <DimensionBar dimension="TF" scoreA={tScore} />
@@ -328,26 +393,48 @@ export default function MBTIResultClient() {
         jScore={jScore}
       />
 
-      {/* ── 잘 맞는 궁합 ── */}
-      <section className="bg-white rounded-3xl shadow-sm border border-indigo-50 px-5 py-6 mb-8">
-        <div className="flex items-center gap-2 mb-4">
-          <Heart size={16} className="text-rose-500" strokeWidth={2} fill="currentColor" />
-          <h2 className="text-sm font-extrabold text-ink">잘 맞는 유형</h2>
+      {/* ── 잘 맞는 궁합 (토글) ── */}
+      <section className="bg-white rounded-3xl shadow-sm border border-indigo-50 mb-8 overflow-hidden">
+        {/* 토글 헤더 */}
+        <button
+          onClick={() => setIsCompatibleOpen((prev) => !prev)}
+          className="w-full flex items-center justify-between px-5 py-5 active:bg-gray-50 transition-colors"
+          aria-expanded={isCompatibleOpen}
+        >
+          <div className="flex items-center gap-2">
+            <Heart size={16} className="text-rose-500" strokeWidth={2} fill="currentColor" />
+            <h2 className="text-sm font-extrabold text-ink">잘 맞는 유형</h2>
+            <span className="text-[11px] font-semibold text-rose-400 bg-rose-50 px-2 py-0.5 rounded-full">
+              {typeInfo.compatible.length}가지
+            </span>
+          </div>
+          <ChevronDown
+            size={18}
+            className={`text-gray-400 transition-transform duration-300 ${isCompatibleOpen ? 'rotate-180' : ''}`}
+          />
+        </button>
+
+        {/* 접히는 콘텐츠 */}
+        <div
+          className={`transition-all duration-300 ease-in-out overflow-hidden ${
+            isCompatibleOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="px-5 pb-5 flex flex-col gap-3">
+            {typeInfo.compatible.map((compat) => (
+              <CompatibleCard key={compat} type={compat} myType={typeInfo.type} />
+            ))}
+            <p className="text-[10px] text-gray-400 text-center pt-1">
+              궁합은 참고용이며 개인차가 있을 수 있습니다
+            </p>
+          </div>
         </div>
-        <div className="flex flex-col gap-3">
-          {typeInfo.compatible.map((compat) => (
-            <CompatibleCard key={compat} type={compat} />
-          ))}
-        </div>
-        <p className="text-[10px] text-gray-400 mt-3 text-center">
-          궁합은 참고용이며 개인차가 있을 수 있습니다
-        </p>
       </section>
 
       {/* ── 재테스트 버튼 ── */}
       <Link
         href="/mbti/test"
-        className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-bold text-sm shadow-md active:scale-[0.98] transition-transform mb-3"
+        className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-brand text-white font-bold text-sm shadow-md active:scale-[0.98] transition-transform mb-3"
       >
         <RotateCcw size={16} strokeWidth={2.5} />
         다시 테스트하기

@@ -27,7 +27,7 @@ export default function MBTIIntroPage() {
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white px-5 py-10 flex flex-col">
       {/* 아이콘 + 타이틀 */}
       <div className="flex flex-col items-center text-center mb-8">
-        <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg mb-5">
+        <div className="w-20 h-20 rounded-3xl bg-brand flex items-center justify-center shadow-lg mb-5">
           <Brain size={40} className="text-white" strokeWidth={1.5} />
         </div>
         <h1 className="text-2xl font-extrabold text-ink mb-2">MBTI 테스트</h1>
@@ -66,7 +66,7 @@ export default function MBTIIntroPage() {
       {/* 시작 버튼 */}
       <Link
         href="/mbti/test"
-        className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-bold text-base shadow-md active:scale-[0.98] transition-transform"
+        className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-brand text-white font-bold text-base shadow-md active:scale-[0.98] transition-transform"
       >
         테스트 시작하기
         <ChevronRight size={20} strokeWidth={2.5} />
