@@ -7,6 +7,7 @@ import {
   Lock,
   LucideIcon,
   PawPrint,
+  Shuffle,
   Smile,
   Sparkles,
   Utensils,
@@ -28,6 +29,7 @@ interface ActiveItem {
   tagStyle: string;
   gradient: string;
   Icon: LucideIcon;
+  coverImage?: string;
 }
 
 // ── 잠금(예정) 콘텐츠 ──
@@ -108,7 +110,19 @@ const ITEMS: CardItem[] = [
     gradient: 'from-indigo-500 via-violet-500 to-purple-600',
     Icon: Brain,
   },
-  // ── 잠금 3개 — 업데이트 예정 ──
+  {
+    type: 'active',
+    id: 'tarot',
+    title: '심봉이 타로',
+    subtitle: '카드 3장으로 보는 나의 흐름',
+    href: '/tarot',
+    tag: 'NEW',
+    tagStyle: 'bg-white/90 text-purple-700',
+    gradient: 'from-purple-900 via-violet-800 to-indigo-900',
+    Icon: Shuffle,
+    coverImage: '/images/tarot/cover.png',
+  },
+  // ── 잠금 2개 — 업데이트 예정 ──
   {
     type: 'locked',
     id: 'locked-1',
@@ -138,16 +152,29 @@ function ActiveCard({ item }: { item: ActiveItem }) {
       className="group block rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md active:scale-[0.98] transition-[box-shadow,transform] duration-200"
     >
       <div
-        className={`relative aspect-[3/4] bg-gradient-to-br ${item.gradient} flex items-center justify-center overflow-hidden`}
+        className={`relative aspect-[3/4] overflow-hidden ${
+          item.coverImage
+            ? ''
+            : `bg-gradient-to-br ${item.gradient} flex items-center justify-center`
+        }`}
       >
-        <div className="absolute -bottom-6 -right-6 w-24 h-24 rounded-full bg-white/10" />
-        <div className="absolute -top-4 -left-4 w-16 h-16 rounded-full bg-white/10" />
-
-        <Icon
-          size={44}
-          className="relative text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
-          strokeWidth={1.5}
-        />
+        {item.coverImage ? (
+          <img
+            src={item.coverImage}
+            alt={item.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <>
+            <div className="absolute -bottom-6 -right-6 w-24 h-24 rounded-full bg-white/10" />
+            <div className="absolute -top-4 -left-4 w-16 h-16 rounded-full bg-white/10" />
+            <Icon
+              size={44}
+              className="relative text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
+              strokeWidth={1.5}
+            />
+          </>
+        )}
 
         {item.tag && (
           <span

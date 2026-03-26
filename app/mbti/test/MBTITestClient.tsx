@@ -21,7 +21,7 @@ import {
   type MBTIQuestion,
   type MBTIDimension,
   type Choice,
-} from '@/data/mbti-questions';
+} from '@/data/mbti/mbti-questions';
 
 // 차원별 답변 점수 합산 (0~300: 문항당 0~100 × 3문항)
 interface DimScores {

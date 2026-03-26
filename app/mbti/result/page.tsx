@@ -4,7 +4,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import MBTIResultClient from './MBTIResultClient';
-import { MBTI_TYPES } from '@/data/mbti-data';
+import { MBTI_TYPES } from '@/data/mbti/mbti-data';
 
 // Next.js 16 — searchParams는 Promise 타입
 type Props = {

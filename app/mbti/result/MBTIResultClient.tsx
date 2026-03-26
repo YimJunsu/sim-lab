@@ -13,7 +13,7 @@ import {
   ClipboardList, Shield, Scale, Handshake, Wrench, Paintbrush, Rocket, Music,
   type LucideIcon,
 } from 'lucide-react';
-import { MBTI_TYPES, DIMENSION_LABELS, DIMENSION_COLORS, getCompatibleReason } from '@/data/mbti-data';
+import { MBTI_TYPES, DIMENSION_LABELS, DIMENSION_COLORS, getCompatibleReason } from '@/data/mbti/mbti-data';
 
 // MBTI 유형 → lucide-react 아이콘 매핑
 const TYPE_ICONS: Record<string, LucideIcon> = {

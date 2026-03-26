@@ -13,6 +13,7 @@ import {
   HeartHandshake,
   LayoutGrid,
   PawPrint,
+  Shuffle,
   Smile,
   Sparkles,
   Utensils,
@@ -34,6 +35,7 @@ const NAV_GROUPS = [
     label: '빠른 서비스',
     items: [
       { href: '/fortune',     Icon: Sparkles, label: 'AI 사주풀이' },
+      { href: '/tarot',       Icon: Shuffle,  label: '심봉이 타로' },
       { href: '/menu/select', Icon: Utensils, label: '오늘 뭐 먹지?' },
     ],
   },
