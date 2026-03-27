@@ -43,7 +43,7 @@ export default function MBTITestClient() {
   const [questions, setQuestions] = useState<MBTIQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [scores, setScores] = useState<DimScores>({ EI: 0, NS: 0, TF: 0, JP: 0 });
-  const [animating, setAnimating] = useState(false);
+  const [animPhase, setAnimPhase] = useState<'exit-forward' | 'enter-forward' | 'exit-backward' | 'enter-backward' | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   // 마운트 시 랜덤 12문항 선택
@@ -55,7 +55,7 @@ export default function MBTITestClient() {
   // 응답 선택 핸들러
   const handleAnswer = useCallback(
     (choice: Choice) => {
-      if (animating) return;
+      if (animPhase !== null) return;
 
       const q = questions[currentIdx];
       const newScores = { ...scores };
@@ -65,7 +65,6 @@ export default function MBTITestClient() {
 
       if (nextIdx >= TOTAL) {
         // 모든 문항 완료 → 점수 계산 및 결과 이동
-        // score(%) = round(dimScore / MAX_DIM_SCORE * 100)
         const eScore = Math.round((newScores.EI / MAX_DIM_SCORE) * 100);
         const nScore = Math.round((newScores.NS / MAX_DIM_SCORE) * 100);
         const tScore = Math.round((newScores.TF / MAX_DIM_SCORE) * 100);
@@ -81,16 +80,32 @@ export default function MBTITestClient() {
         return;
       }
 
-      // 다음 문항으로 전환 (페이드 애니메이션)
-      setAnimating(true);
+      // 책 페이지 넘기기 — 다음 문제 (forward)
+      setAnimPhase('exit-forward');
       setTimeout(() => {
         setScores(newScores);
         setCurrentIdx(nextIdx);
-        setAnimating(false);
-      }, 180);
+        setAnimPhase('enter-forward');
+        setTimeout(() => setAnimPhase(null), 220);
+      }, 200);
     },
-    [animating, currentIdx, questions, router, scores],
+    [animPhase, currentIdx, questions, router, scores],
   );
+
+  // 이전 문제 핸들러
+  const handleBack = useCallback(() => {
+    if (animPhase !== null) return;
+    if (currentIdx > 0) {
+      setAnimPhase('exit-backward');
+      setTimeout(() => {
+        setCurrentIdx((i) => i - 1);
+        setAnimPhase('enter-backward');
+        setTimeout(() => setAnimPhase(null), 220);
+      }, 200);
+    } else {
+      router.push('/mbti');
+    }
+  }, [animPhase, currentIdx, router]);
 
   if (!isReady || questions.length === 0) {
     return (
@@ -117,7 +132,7 @@ export default function MBTITestClient() {
       {/* 상단 — 뒤로가기 + 진행률 */}
       <div className="flex items-center gap-3 mb-8">
         <button
-          onClick={() => (currentIdx > 0 ? setCurrentIdx((i) => i - 1) : router.push('/mbti'))}
+          onClick={handleBack}
           className="w-9 h-9 rounded-xl bg-white border border-border flex items-center justify-center shadow-sm flex-shrink-0"
           aria-label="이전"
         >
@@ -140,11 +155,9 @@ export default function MBTITestClient() {
         </div>
       </div>
 
-      {/* 질문 + 선택지 (페이드 애니메이션) */}
-      <div
-        className="flex-1 flex flex-col"
-        style={{ opacity: animating ? 0 : 1, transition: 'opacity 0.18s ease' }}
-      >
+      {/* 질문 + 선택지 (책 페이지 넘기기 애니메이션) */}
+      <div className="flex-1 overflow-hidden">
+      <div className={`flex-1 flex flex-col${animPhase ? ` mbti-page-${animPhase}` : ''}`}>
         {/* 질문 카드 */}
         <div className="bg-white rounded-3xl shadow-sm border border-indigo-50 px-6 py-8 mb-5 flex items-center justify-center">
           <p className="text-lg font-bold text-ink leading-relaxed text-center">{q.question}</p>
@@ -169,6 +182,7 @@ export default function MBTITestClient() {
             </button>
           ))}
         </div>
+      </div>
       </div>
 
       {/* 면책 */}

@@ -59,7 +59,7 @@ export default function CardReveal({ cardIds, category, onComplete }: CardReveal
                   isNext ? 'cursor-pointer' : '',
                   isNext && !isFlipped ? 'ring-1 ring-[#C9A96E]/50' : '',
                 ].join(' ')}
-                style={{ aspectRatio: '2/3', minHeight: '200px' }}
+                style={{ aspectRatio: '2/3.5', minHeight: '280px' }}
                 onClick={() => handleTap(index)}
               >
                 <div className={`tarot-card-inner w-full h-full ${isFlipped ? 'flipped' : ''}`}>

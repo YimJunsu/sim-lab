@@ -98,8 +98,8 @@ export default function TarotResultClient() {
               className="flex gap-3.5 bg-white/[0.03] rounded-2xl p-3.5 border border-white/[0.06]"
             >
               {/* 카드 썸네일 */}
-              <div className="flex-shrink-0 w-[62px]">
-                <div className="w-full aspect-[2/3] rounded-lg overflow-hidden border border-[#C9A96E]/20 bg-[#0D1A2A] relative">
+              <div className="flex-shrink-0 w-[78px]">
+                <div className="w-full aspect-[2/3.5] rounded-lg overflow-hidden border border-[#C9A96E]/20 bg-[#0D1A2A] relative">
                   {card && (
                     <img
                       src={getTarotImageUrl(card.imageFile)}
