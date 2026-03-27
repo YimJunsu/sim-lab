@@ -45,7 +45,7 @@ const NAV_GROUPS = [
     label: '테스트',
     items: [
       { href: '/mymood',       Icon: Smile,         label: '감정 점수화' },
-      { href: '/animal-test',  Icon: PawPrint,       label: '이상형 동물상 테스트' },
+      { href: '/animal-type',  Icon: PawPrint,        label: '이상형 동물상 테스트' },
       { href: '/ideal-type',   Icon: HeartHandshake, label: '이상형 성향 테스트' },
       { href: '/mbti',         Icon: Brain,          label: 'MBTI 테스트' },
     ],
