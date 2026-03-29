@@ -54,8 +54,8 @@ const QUICK_SERVICES: ContentItem[] = [
   {
     id: 'menu',
     title: '오늘 뭐 먹지?',
-    subtitle: '기분에 맞는 메뉴 추천',
-    href: '/menu/select',
+    subtitle: '컨디션에 맞는 메뉴 추천',
+    href: '/menu',
     tag: '추천',
     tagStyle: 'bg-white/90 text-orange-600',
     gradient: 'from-orange-400 via-amber-400 to-rose-500',
@@ -94,6 +94,7 @@ const TESTS: ContentItem[] = [
     tagStyle: '',
     gradient: 'from-pink-500 via-rose-400 to-red-400',
     Icon: HeartHandshake,
+    coverImage: '/images/ideal-type/cover.png',
   },
   {
     id: 'mbti',

@@ -1,0 +1,14 @@
+{
+  "conditions": [
+    { "id": "happy",    "label": "기분 좋을 때",    "emoji": "😊", "menuIds": ["bibimbap", "samgyeopsal", "pasta", "steak", "pizza", "sushi", "chicken", "sashimi", "bulgogi", "galbi", "beef-stew", "jeon", "bossam", "jokbal", "pad-thai"] },
+    { "id": "stress",   "label": "스트레스 받을 때", "emoji": "😤", "menuIds": ["kimchi-jjigae", "samgyeopsal", "dakgalbi", "tteokbokki", "jjambbong", "chicken", "budae-jjigae", "yukgaejang", "dalgalbi-bokkeumbap", "ramyeon", "kimchi-fried-rice", "jokbal", "pizza"] },
+    { "id": "hangover", "label": "숙취 해소",       "emoji": "🤢", "menuIds": ["haejang-guk", "sundubu", "kongnamul-gukbap", "sundae-gukbap", "budae-jjigae", "jjambbong"] },
+    { "id": "diet",     "label": "다이어트 중",      "emoji": "🥗", "menuIds": ["bibimbap", "salad", "chicken-breast", "pho", "juk", "naengmyeon", "grilled-fish", "tofu-dish", "sandwich", "vietnamese-bbq", "sushi", "pasta"] },
+    { "id": "tired",    "label": "피곤할 때",        "emoji": "😴", "menuIds": ["samgyetang", "eel", "bulgogi", "ramen", "kimbap", "sandwich", "donkatsu", "mandu-guk", "kalguksu", "hot-dog", "ramyeon", "pho"] },
+    { "id": "sick",     "label": "몸이 아플 때",     "emoji": "🤒", "menuIds": ["juk", "doenjang-jjigae", "sundubu", "mandu-guk", "kalguksu", "grilled-fish", "tofu-dish", "udon", "haejang-guk"] },
+    { "id": "cold",     "label": "추운 날",          "emoji": "❄️", "menuIds": ["budae-jjigae", "kimchi-jjigae", "dakgalbi", "jjajangmyeon", "ramen", "dumplings", "kalguksu", "yukgaejang", "mandu-guk", "kongnamul-gukbap", "udon", "jeon", "beef-stew", "bossam", "sundae-gukbap", "sundubu"] },
+    { "id": "hot",      "label": "더운 날",          "emoji": "☀️", "menuIds": ["naengmyeon", "sashimi", "samgyetang", "pho", "chicken", "salad", "vietnamese-bbq"] },
+    { "id": "budget",   "label": "가성비",            "emoji": "💸", "menuIds": ["kimbap", "tteokbokki", "jjajangmyeon", "ramyeon", "kongnamul-gukbap", "sundae-gukbap", "burger", "hot-dog", "sandwich", "kimchi-fried-rice", "dumplings", "donkatsu", "jeon", "udon", "doenjang-jjigae"] },
+    { "id": "special",  "label": "특별한 날",         "emoji": "🎉", "menuIds": ["steak", "omakase", "galbi", "sashimi", "bossam", "jokbal", "beef-stew", "samgyeopsal", "eel", "sushi", "tangsuyuk"] }
+  ]
+}
