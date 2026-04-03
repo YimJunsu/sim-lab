@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-const EFFECTIVE_DATE = '2026년 3월 21일';
+const EFFECTIVE_DATE = '2026년 4월 3일';
 
 export default function TermsPage() {
   return (
@@ -24,8 +24,9 @@ export default function TermsPage() {
       <Section title="제2조 (정의)">
         <ul>
           <li>
-            <strong>&quot;서비스&quot;</strong>: 심랩이 운영하는 AI 사주풀이,
-            메뉴 추천, 심리 테스트 등 웹 기반 콘텐츠 일체
+            <strong>&quot;서비스&quot;</strong>: 심랩(simlab.kr)이 운영하는 AI 사주풀이,
+            오늘 뭐먹지?, 심봉이 타로, 감정 점수화, 이상형 동물상 테스트, 이상형 성향 테스트,
+            MBTI 테스트 등 웹 기반 콘텐츠 일체
           </li>
           <li>
             <strong>&quot;이용자&quot;</strong>: 별도 회원 가입 없이 서비스에
@@ -33,7 +34,7 @@ export default function TermsPage() {
           </li>
           <li>
             <strong>&quot;콘텐츠&quot;</strong>: 서비스 내 제공되는 텍스트,
-            이미지, AI 생성 결과물 등 일체
+            이미지, AI 생성 결과물, 알고리즘 기반 결과물 등 일체
           </li>
         </ul>
       </Section>
@@ -55,8 +56,12 @@ export default function TermsPage() {
             사유로 일시 중단될 수 있습니다.
           </li>
           <li>
-            AI 서비스(사주풀이 등)의 결과는 오락 목적으로만 제공되며 정확성을
-            보장하지 않습니다.
+            AI 사주풀이, 심봉이 타로, 각종 심리 테스트, 메뉴 추천 등 모든 콘텐츠의
+            결과는 오락 목적으로만 제공되며 정확성을 보장하지 않습니다.
+          </li>
+          <li>
+            오늘 뭐먹지? 주변 식당 검색 기능은 브라우저 위치 권한 허용 시 현재 위치를
+            기반으로 동작합니다. 위치 권한을 거부해도 서비스 이용이 가능합니다.
           </li>
         </ul>
       </Section>
@@ -78,7 +83,7 @@ export default function TermsPage() {
         </p>
         <ul>
           <li>시스템 점검·교체·수리 등 기술적 필요가 있는 경우</li>
-          <li>외부 API(OpenAI 등) 장애 발생 시</li>
+          <li>외부 API(OpenAI, 카카오 등) 장애 발생 시</li>
           <li>천재지변, 국가 비상사태 등 불가항력적 사유가 발생한 경우</li>
         </ul>
       </Section>
@@ -93,9 +98,14 @@ export default function TermsPage() {
 
       <Section title="제8조 (면책 조항)">
         <p>
-          심랩은 AI가 생성한 사주풀이, 메뉴 추천, 심리 테스트 결과의 정확성을
+          심랩은 AI 사주풀이, 심봉이 타로, 이상형 동물상 테스트, 이상형 성향 테스트,
+          MBTI 테스트, 감정 점수화, 메뉴 추천 등 모든 서비스 결과의 정확성을
           보장하지 않으며, 이를 신뢰하여 발생한 손해에 대해 책임을 지지
-          않습니다. 서비스는 오락 및 참고 목적으로만 이용하시기 바랍니다.
+          않습니다. 모든 서비스는 오락 및 참고 목적으로만 이용하시기 바랍니다.
+        </p>
+        <p>
+          카카오맵 기반 주변 식당 정보는 외부 데이터에 의존하며, 실제 영업 여부·위치 등과
+          다를 수 있습니다.
         </p>
       </Section>
 

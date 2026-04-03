@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-const EFFECTIVE_DATE = '2026년 3월 21일';
+const EFFECTIVE_DATE = '2026년 4월 3일';
 
 export default function PrivacyPage() {
   return (
@@ -23,7 +23,8 @@ export default function PrivacyPage() {
         </p>
         <Highlight>
           심랩은 <strong>서버에 개인정보를 저장하지 않습니다.</strong> AI
-          사주풀이에 입력된 생년월일 등 정보는 API 처리 후 즉시 파기됩니다.
+          사주풀이에 입력된 생년월일 등 정보는 API 처리 후 즉시 파기되며,
+          위치 정보는 주변 식당 검색 용도로만 일시 사용됩니다.
         </Highlight>
       </Section>
 
@@ -35,6 +36,7 @@ export default function PrivacyPage() {
             ['필수', '없음 (회원가입 없음)', '—'],
             ['자동 수집', 'IP 주소, 브라우저 종류, 방문 페이지', '웹서버 로그 (익명)'],
             ['선택 (AI 사주)', '생년월일, 성별, 이름 (입력 시)', '이용자 직접 입력'],
+            ['선택 (위치정보)', '현재 위치 (위도·경도)', '브라우저 Geolocation API (오늘 뭐먹지 주변 식당 검색 시)'],
           ]}
         />
         <p className="text-xs text-[#6B7280]">
@@ -46,6 +48,7 @@ export default function PrivacyPage() {
       <Section title="3. 개인정보 이용 목적">
         <ul>
           <li>AI 사주풀이 결과 생성 (입력 즉시 처리, 저장 없음)</li>
+          <li>오늘 뭐먹지? 주변 식당 검색 (위치 정보 — 카카오맵 API 호출 후 미저장)</li>
           <li>서비스 이용 통계 분석 (익명화된 데이터)</li>
           <li>서비스 오류 감지 및 개선</li>
         </ul>
@@ -60,18 +63,25 @@ export default function PrivacyPage() {
         <Table
           headers={['항목', '보유 기간']}
           rows={[
-            ['생년월일 등 입력값', '처리 후 즉시 파기 (미저장)'],
+            ['생년월일 등 입력값 (AI 사주)', '처리 후 즉시 파기 (미저장)'],
+            ['현재 위치 정보 (주변 식당 검색)', '처리 후 즉시 파기 (미저장)'],
             ['익명 방문 로그', '최대 30일'],
           ]}
         />
       </Section>
 
       <Section title="5. 제3자 제공 및 위탁">
-        <p>심랩은 이용자의 개인정보를 제3자에게 제공하지 않습니다. 단, AI 사주풀이 기능은 OpenAI API를 활용하며, 입력 데이터는 OpenAI의 개인정보처리방침을 따릅니다.</p>
-        <ul>
-          <li>수탁사: OpenAI (AI 사주 기능)</li>
-          <li>위탁 내용: 텍스트 생성 API 처리</li>
-        </ul>
+        <p>심랩은 이용자의 개인정보를 제3자에게 제공하지 않습니다. 단, 아래 기능은 외부 API를 활용하며 해당 정책을 따릅니다.</p>
+        <Table
+          headers={['수탁사', '위탁 내용', '관련 서비스']}
+          rows={[
+            ['OpenAI', '텍스트 생성 API 처리 (생년월일 등 입력값)', 'AI 사주풀이'],
+            ['카카오', '장소 검색 API 처리 (현재 위치 좌표)', '오늘 뭐먹지? 주변 식당 검색'],
+          ]}
+        />
+        <p className="text-xs text-[#6B7280]">
+          * 심봉이 타로, MBTI 테스트, 이상형 테스트 등 나머지 서비스는 외부 API를 사용하지 않습니다.
+        </p>
       </Section>
 
       <Section title="6. 쿠키 및 유사 기술">

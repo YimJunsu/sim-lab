@@ -19,47 +19,40 @@ export default function MenuSelectClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // URL 파라미터로 모드 구분 (condition / category)
   const mode = searchParams.get('mode') as 'condition' | 'category';
   const isConditionMode = mode === 'condition';
 
-  // 선택된 항목 ID 상태
   const [selected, setSelected] = useState<string | null>(null);
   const [isNavigating, setIsNavigating] = useState(false);
 
-  // 표시할 데이터 — 모드에 따라 컨디션 또는 카테고리
   const items = isConditionMode ? ALL_CONDITIONS : ALL_CATEGORIES;
 
-  // 항목 선택 핸들러 — 선택 후 0.3초 딜레이로 결과 페이지 이동
   const handleSelect = (itemId: string) => {
     if (isNavigating) return;
     setSelected(itemId);
     setIsNavigating(true);
 
-    // 선택된 항목에 해당하는 메뉴 추출
     const menu = isConditionMode
       ? getMenuByCondition(itemId)
       : getMenuByCategory(itemId);
 
-    // 메뉴 추출 실패 시 전체 랜덤으로 폴백
     if (!menu) {
       router.push(`/menu/result?menu=kimchi-jjigae&mode=${mode}&tag=${itemId}`);
       return;
     }
 
-    // 선택 피드백 후 결과 페이지로 이동
     setTimeout(() => {
       router.push(`/menu/result?menu=${menu.id}&mode=${mode}&tag=${itemId}`);
     }, 300);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white px-5 py-8 mobile-container mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white px-5 py-8 mobile-container mx-auto">
 
       {/* 뒤로가기 버튼 */}
       <button
         onClick={() => router.back()}
-        className="flex items-center gap-1.5 text-indigo-600 text-sm font-semibold mb-8 active:opacity-70"
+        className="flex items-center gap-1.5 text-gray-600 text-sm font-semibold mb-8 active:opacity-70"
         aria-label="이전 화면으로"
       >
         <ArrowLeft size={16} strokeWidth={2.5} />
@@ -92,17 +85,15 @@ export default function MenuSelectClient() {
                 rounded-2xl px-4 py-5 border-2 transition-all
                 active:scale-[0.97]
                 ${isActive
-                  ? 'border-brand bg-indigo-50 shadow-md'
-                  : 'border-indigo-100 bg-white hover:border-indigo-300 hover:bg-indigo-50'
+                  ? 'border-brand bg-gray-50 shadow-md'
+                  : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
                 }
                 ${isNavigating && !isActive ? 'opacity-50' : ''}
               `}
               aria-label={item.label}
               aria-pressed={isActive}
             >
-              {/* 이모지 */}
               <span className="text-3xl leading-none">{item.emoji}</span>
-              {/* 레이블 */}
               <span className={`text-xs font-bold text-center leading-snug ${isActive ? 'text-brand' : 'text-ink'}`}>
                 {item.label}
               </span>

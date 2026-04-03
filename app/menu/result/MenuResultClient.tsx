@@ -15,9 +15,7 @@ import { getMenuById, ROULETTE_ITEMS, MenuItem } from '@/lib/menu-utils';
 import KakaoMapSection from './KakaoMapSection';
 
 // ── 칼로리 전체 너비 카드 ──
-// 칼로리는 영양소 중 가장 중요 지표 — 독립 카드로 강조 표시
 function CaloriesCard({ calories }: { calories: number }) {
-  // 1일 권장 칼로리 2000kcal 기준 비율 계산
   const percent = Math.min(100, Math.round((calories / 2000) * 100));
 
   return (
@@ -33,14 +31,12 @@ function CaloriesCard({ calories }: { calories: number }) {
           1일 권장량의 {percent}%
         </span>
       </div>
-      {/* 칼로리 수치 — 크게 표시 */}
       <div className="flex items-end gap-1.5 mb-3">
         <span className="text-4xl font-extrabold text-ink leading-none">
           {calories.toLocaleString()}
         </span>
         <span className="text-base font-medium text-muted mb-0.5">kcal</span>
       </div>
-      {/* CSS 바 차트 */}
       <div className="h-2 bg-orange-50 rounded-full overflow-hidden">
         <div
           className="h-full bg-orange-400 rounded-full transition-all duration-700"
@@ -51,9 +47,7 @@ function CaloriesCard({ calories }: { calories: number }) {
   );
 }
 
-// ── 영양소 카드 (2×2 그리드용) ——————————————————————
-// 탄수화물·단백질·지방·나트륨 공통 카드
-// isHigh: 나트륨 권장량 초과 시 빨간 경고 스타일 적용
+// ── 영양소 카드 (2×2 그리드용) ──
 function NutrientCard({
   icon: Icon,
   label,
@@ -73,9 +67,7 @@ function NutrientCard({
   bgColor: string;
   isHigh?: boolean;
 }) {
-  // 권장량 대비 비율 계산
   const percent = Math.min(100, Math.round((value / max) * 100));
-  // 경고 상태일 때 색상 오버라이드
   const activeColor = isHigh ? 'text-red-400' : color;
   const activeBg = isHigh ? 'bg-red-50' : bgColor;
   const barColor = isHigh ? 'bg-red-400' : color.replace('text-', 'bg-');
@@ -83,28 +75,24 @@ function NutrientCard({
   return (
     <div
       className={`rounded-2xl px-3 py-3 border shadow-sm ${
-        isHigh ? 'bg-red-50 border-red-100' : 'bg-white border-indigo-50'
+        isHigh ? 'bg-red-50 border-red-100' : 'bg-white border-gray-100'
       }`}
     >
-      {/* 아이콘 + 레이블 행 */}
       <div className="flex items-center gap-1.5 mb-2">
         <div className={`w-7 h-7 rounded-lg ${activeBg} flex items-center justify-center flex-shrink-0`}>
           <Icon size={13} className={activeColor} strokeWidth={2} />
         </div>
         <span className="text-[10px] font-bold text-muted">{label}</span>
-        {/* 나트륨 높음 경고 배지 */}
         {isHigh && (
           <span className="text-[9px] font-bold text-red-500 bg-red-100 px-1.5 py-0.5 rounded-full leading-none">
             높음
           </span>
         )}
       </div>
-      {/* 수치 */}
       <p className={`text-base font-extrabold mt-0.5 ${isHigh ? 'text-red-600' : 'text-ink'}`}>
         {value.toLocaleString()}
         <span className="text-[10px] font-medium text-muted ml-0.5">{unit}</span>
       </p>
-      {/* CSS 바 차트 */}
       <div className="h-1 bg-gray-100 rounded-full overflow-hidden mt-1.5">
         <div
           className={`h-full rounded-full transition-all duration-700 ${barColor}`}
@@ -116,31 +104,44 @@ function NutrientCard({
 }
 
 // ── 룰렛 로딩 화면 ──
-function RouletteLoading() {
+function RouletteLoading({ targetName }: { targetName: string }) {
+  const ITEM_H = 36;
+  // 충분히 긴 항목 리스트 (seamless 무한 루프용 3벌 복제)
+  const others = ROULETTE_ITEMS.filter((n) => n !== targetName).slice(0, 14);
+  const displayItems = [...others, targetName];
+  const loopHeight = displayItems.length * ITEM_H; // 한 사이클 높이
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-brand to-indigo-800 flex flex-col items-center justify-center px-5">
-      <p className="text-white/70 text-sm font-medium mb-4 tracking-wide">잠깐만요...</p>
-      <h2 className="text-white text-2xl font-extrabold mb-8">메뉴가 생성중이에요!</h2>
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 flex flex-col items-center justify-center px-5">
 
-      {/* 룰렛 컨테이너 — overflow-hidden으로 스크롤 텍스트 마스킹 */}
-      <div
-        className="w-64 h-16 overflow-hidden rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center relative mb-8"
-        aria-hidden="true"
-      >
-        {/* 상하단 그라디언트 페이드 */}
-        <div className="absolute inset-x-0 top-0 h-5 bg-gradient-to-b from-brand to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-indigo-800 to-transparent z-10 pointer-events-none" />
+      {/* 텍스트 */}
+      <p className="text-white/60 text-sm font-medium mb-2 tracking-wide">...</p>
+      <h2 className="text-white text-2xl font-extrabold mb-8 tracking-tight">오늘의 메뉴 고르는 중!</h2>
 
-        {/* 세로 스크롤 룰렛 텍스트 — CSS @keyframes 처리 */}
-        <div className="roulette-scroll flex flex-col items-center">
-          {[...ROULETTE_ITEMS, ...ROULETTE_ITEMS].map((name, i) => (
-            <span
-              key={i}
-              className="text-white font-bold text-lg leading-8 h-8 text-center whitespace-nowrap"
-            >
-              {name}
-            </span>
-          ))}
+      {/* 룰렛 창 */}
+      <div className="relative mb-8">
+        {/* 선택 하이라이트 라인 */}
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[44px] border-y-2 border-amber-400/60 z-20 pointer-events-none rounded-xl" />
+
+        <div
+          className="w-72 h-[108px] overflow-hidden rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center relative"
+          aria-hidden="true"
+        >
+          {/* 상하단 그라디언트 페이드 */}
+          <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-slate-900/90 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-slate-800/90 to-transparent z-10 pointer-events-none" />
+
+          {/* 세로 스크롤 룰렛 텍스트 — 3벌 복제로 seamless 무한 루프 */}
+          <div className="roulette-scroll flex flex-col items-center w-full px-4">
+            {[...displayItems, ...displayItems, ...displayItems].map((name, i) => (
+              <span
+                key={i}
+                className="text-white font-bold text-lg leading-9 h-9 text-center whitespace-nowrap w-full"
+              >
+                {name}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -149,23 +150,20 @@ function RouletteLoading() {
         {[0, 1, 2].map((i) => (
           <div
             key={i}
-            className="w-2 h-2 rounded-full bg-white/60 animate-bounce"
+            className="w-2 h-2 rounded-full bg-amber-400/80 animate-bounce"
             style={{ animationDelay: `${i * 0.15}s` }}
           />
         ))}
       </div>
 
-      {/* 룰렛 CSS 애니메이션 */}
+      {/* 룰렛 CSS 애니메이션 — linear infinite로 끊김 없이 계속 회전 */}
       <style>{`
         .roulette-scroll {
-          animation: rouletteScroll 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+          animation: rouletteScroll 1.2s linear infinite;
         }
         @keyframes rouletteScroll {
           0%   { transform: translateY(0); }
-          60%  { transform: translateY(-${ROULETTE_ITEMS.length * 28}px); }
-          80%  { transform: translateY(-${(ROULETTE_ITEMS.length - 2) * 28}px); }
-          90%  { transform: translateY(-${(ROULETTE_ITEMS.length - 1) * 28}px); }
-          100% { transform: translateY(-${(ROULETTE_ITEMS.length - 1) * 28}px); }
+          100% { transform: translateY(-${loopHeight}px); }
         }
       `}</style>
     </div>
@@ -177,17 +175,13 @@ export default function MenuResultClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // URL 파라미터 파싱
   const menuId = searchParams.get('menu') ?? '';
 
-  // 화면 단계: roulette → result
   const [phase, setPhase] = useState<'roulette' | 'result'>('roulette');
   const [copied, setCopied] = useState(false);
 
-  // 메뉴 데이터 조회
   const menu: MenuItem | undefined = getMenuById(menuId);
 
-  // 마운트 후 2.5초 뒤 결과 화면으로 전환
   useEffect(() => {
     const timer = setTimeout(() => {
       setPhase('result');
@@ -195,7 +189,6 @@ export default function MenuResultClient() {
     return () => clearTimeout(timer);
   }, []);
 
-  // 공유하기 — Web Share API 또는 링크 복사 폴백
   const handleShare = useCallback(async () => {
     const url = typeof window !== 'undefined' ? window.location.href : '';
     const title = menu ? `오늘 메뉴는 ${menu.name}!` : '오늘 뭐 먹지?';
@@ -210,18 +203,15 @@ export default function MenuResultClient() {
         // 사용자 취소 — 무시
       }
     } else {
-      // Web Share API 미지원 시 링크 복사
       await handleCopyLink();
     }
   }, [menu]);
 
-  // 링크 복사 — 복사 완료 시 2초 피드백
   const handleCopyLink = useCallback(async () => {
     const url = typeof window !== 'undefined' ? window.location.href : '';
     try {
       await navigator.clipboard.writeText(url);
     } catch {
-      // clipboard API 미지원 폴백
       const input = document.createElement('input');
       input.value = url;
       document.body.appendChild(input);
@@ -233,17 +223,14 @@ export default function MenuResultClient() {
     setTimeout(() => setCopied(false), 2000);
   }, []);
 
-  // 다시 뽑기 — 인트로 페이지로 이동
   const handleRetry = useCallback(() => {
     router.push('/menu');
   }, [router]);
 
-  // 룰렛 로딩 단계
   if (phase === 'roulette') {
-    return <RouletteLoading />;
+    return <RouletteLoading targetName={menu?.name ?? ROULETTE_ITEMS[0]} />;
   }
 
-  // 메뉴 데이터 없을 경우 오류 처리
   if (!menu) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-5">
@@ -258,28 +245,26 @@ export default function MenuResultClient() {
     );
   }
 
-  // 4대 영양소 (탄수화물·단백질·지방·나트륨) 데이터 — 2×2 카드 그리드
-  // 나트륨 1회 800mg 초과 시 isHigh 경고 활성
   const NUTRIENT_INFO = [
     { icon: Wheat,    label: '탄수화물', value: menu.nutrition.carbs,   unit: 'g',  max: 300,  color: 'text-yellow-500', bgColor: 'bg-yellow-50' },
     { icon: Dumbbell, label: '단백질',   value: menu.nutrition.protein, unit: 'g',  max: 60,   color: 'text-blue-500',   bgColor: 'bg-blue-50'   },
-    { icon: Droplets, label: '지방',     value: menu.nutrition.fat,     unit: 'g',  max: 65,   color: 'text-indigo-400', bgColor: 'bg-indigo-50' },
+    { icon: Droplets, label: '지방',     value: menu.nutrition.fat,     unit: 'g',  max: 65,   color: 'text-purple-400', bgColor: 'bg-purple-50' },
     { icon: Droplets, label: '나트륨',   value: menu.nutrition.sodium,  unit: 'mg', max: 2000, color: 'text-red-400',    bgColor: 'bg-red-50',   isHigh: menu.nutrition.sodium > 800 },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white px-5 py-8 mobile-container mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white px-5 py-8 mobile-container mx-auto">
 
       {/* 결과 헤더 */}
       <div className="text-center mb-6">
-        <p className="text-xs font-bold text-indigo-500 tracking-widest mb-1 uppercase">오늘의 메뉴</p>
+        <p className="text-xs font-bold text-amber-600 tracking-widest mb-1 uppercase">오늘의 메뉴</p>
         <h1 className="text-3xl font-extrabold text-ink mb-2">{menu.name}</h1>
         {/* 태그 배지 */}
         <div className="flex flex-wrap justify-center gap-1.5 mb-3">
           {menu.tags.map((tag) => (
             <span
               key={tag}
-              className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-600"
+              className="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600"
             >
               {tag}
             </span>
@@ -296,10 +281,8 @@ export default function MenuResultClient() {
           <span className="text-[10px] text-gray-400">(1인분 기준 / 추정치)</span>
         </div>
 
-        {/* 칼로리 — 전체 너비 강조 카드 (위치: 영양정보 최상단, 유지) */}
         <CaloriesCard calories={menu.nutrition.calories} />
 
-        {/* 탄수화물·단백질·지방·나트륨 — 2×2 카드 그리드 */}
         <div className="grid grid-cols-2 gap-2">
           {NUTRIENT_INFO.map((info) => (
             <NutrientCard key={info.label} {...info} />
@@ -308,12 +291,10 @@ export default function MenuResultClient() {
       </section>
 
       {/* ── 카카오맵 주변 식당 섹션 ── */}
-      {/* 지도 렌더링 + 장소 목록: 데스크탑 5곳, 모바일 3곳 + 더보기 */}
       <KakaoMapSection keyword={menu.kakaoSearchKeyword} />
 
-      {/* ── 액션 버튼 — 공유하기 / 다시 뽑기 ── */}
+      {/* ── 액션 버튼 ── */}
       <div className="flex gap-3 mb-4">
-        {/* 공유하기 — Web Share API(모바일 네이티브) or 링크 복사 */}
         <button
           onClick={handleShare}
           className="flex flex-1 items-center justify-center gap-2 py-4 rounded-2xl bg-brand text-white font-bold text-sm shadow-md active:scale-[0.98] transition-transform"
@@ -332,7 +313,6 @@ export default function MenuResultClient() {
           )}
         </button>
 
-        {/* 다시 뽑기 */}
         <button
           onClick={handleRetry}
           className="flex flex-1 items-center justify-center gap-2 py-4 rounded-2xl border-2 border-brand text-brand font-bold text-sm active:scale-[0.98] transition-transform"
@@ -349,7 +329,7 @@ export default function MenuResultClient() {
         className={`flex items-center justify-center gap-2 w-full py-3 rounded-2xl border text-sm font-semibold transition-all mb-6 ${
           copied
             ? 'border-emerald-400 text-emerald-600 bg-emerald-50'
-            : 'border-indigo-200 text-indigo-600 bg-white'
+            : 'border-gray-300 text-gray-600 bg-white'
         }`}
         aria-label="결과 링크 복사"
       >

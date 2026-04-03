@@ -1,12 +1,12 @@
 {
   "categories": [
-    { "id": "korean",   "label": "한식",       "emoji": "🍚", "menuIds": ["kimchi-jjigae", "haejang-guk", "bibimbap", "samgyeopsal", "dakgalbi", "samgyetang", "juk", "naengmyeon", "doenjang-jjigae", "budae-jjigae", "sundubu", "eel", "kongnamul-gukbap", "sundae-gukbap", "dalgalbi-bokkeumbap", "bulgogi", "yukgaejang", "mandu-guk", "galbi", "grilled-fish", "kalguksu", "beef-stew", "jeon", "kimchi-fried-rice", "bossam", "jokbal", "dumplings"] },
-    { "id": "western",  "label": "양식",       "emoji": "🍝", "menuIds": ["pasta", "steak", "pizza"] },
-    { "id": "chinese",  "label": "중식",       "emoji": "🥡", "menuIds": ["jjajangmyeon", "jjambbong", "tangsuyuk"] },
-    { "id": "japanese", "label": "일식",       "emoji": "🍣", "menuIds": ["sushi", "ramen", "udon", "sashimi", "donkatsu", "omakase"] },
-    { "id": "bunsik",   "label": "분식",       "emoji": "🌮", "menuIds": ["tteokbokki", "kimbap", "dumplings", "ramyeon"] },
-    { "id": "fastfood", "label": "패스트푸드", "emoji": "🍗", "menuIds": ["chicken", "burger", "hot-dog"] },
-    { "id": "asian",    "label": "아시안",     "emoji": "🥘", "menuIds": ["pho", "pad-thai", "vietnamese-bbq"] },
-    { "id": "other",    "label": "기타",       "emoji": "🥙", "menuIds": ["salad", "chicken-breast", "sandwich", "tofu-dish"] }
+    { "id": "korean",   "label": "한식",       "emoji": "🍚", "menuIds": ["kimchi-jjigae","doenjang-jjigae","bibimbap","bulgogi","samgyeopsal","samgyetang","yukgaejang","miyeok-guk","jeyuk-bokkeum","tteok-guk","naengmyeon","kongguksu","bugeo-guk","juk","yukhoe-bibimbap","sundae-guk","bbyeo-haejang","dakgalbi","andong-jjimdak","suyuk","kongnamul-gukbap","kalguksu","sujebi","gamjatang","agujjim","abalone-juk","gyeranjjim","dakbal","gopchang","makchang","daechang","bajirak-kalguksu","bossam"] },
+    { "id": "chinese",  "label": "중식",       "emoji": "🥡", "menuIds": ["jjajangmyeon","jjambbong","tangsuyuk","maratang","mara-hotpot","mara-stir","bokkeum-bap","tantanmyeon","yusanseul","yangjangpi","guo-bao-rou"] },
+    { "id": "japanese", "label": "일식",       "emoji": "🍣", "menuIds": ["sushi","donkatsu","ramen","udon","gyudon","tendon","sakedon","katsudon","naeng-momil","hoe-deopbap","sashimi"] },
+    { "id": "western",  "label": "양식",       "emoji": "🍝", "menuIds": ["carbonara","pasta","steak","cheese-pizza","caesar-salad","hambak-steak","risotto","lasagna","eggs-benedict","french-toast","gambas"] },
+    { "id": "bunsik",   "label": "분식",       "emoji": "🌮", "menuIds": ["tteokbokki","kimbap","mixed-twigim","janchi-guksu","ramyeon","jjolmyeon","gunmandu","odeng-tang","sotteok"] },
+    { "id": "fastfood", "label": "패스트푸드", "emoji": "🍗", "menuIds": ["cheeseburger","fried-chicken","sandwich","taco","hotdog","club-sandwich","burrito","boneless-chicken","quesadilla"] },
+    { "id": "asian",    "label": "아시안",     "emoji": "🥘", "menuIds": ["pho","pad-thai","nasi-goreng","bun-cha","fresh-roll","salmon-poke","tuna-poke","shabu-shabu","tom-yum","curry-rice"] },
+    { "id": "other",    "label": "기타",       "emoji": "🥙", "menuIds": ["salmon-salad","patbingsu","cake-slice","greek-yogurt","croffle","iced-americano","chicken-salad","steak-salad","tofu-pasta","yogurt-bowl","fruit-lunchbox","watermelon-punch","waffle","bagel"] }
   ]
 }

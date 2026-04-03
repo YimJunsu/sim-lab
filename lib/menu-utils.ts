@@ -1,5 +1,5 @@
 // 메뉴 유틸리티 함수 모음
-// 컨디션/카테고리 기반 메뉴 추출, 카카오맵 URL 생성, 공유 기능 제공
+// 컨디션/카테고리 기반 메뉴 추출 및 랜덤 선택 기능 제공
 
 import menuItemsData from '@/data/menu/menu-items.json';
 import menuConditionsData from '@/data/menu/menu-conditions.json';
@@ -72,11 +72,6 @@ export function getRandomMenu(): MenuItem {
 // ID로 메뉴 아이템 조회
 export function getMenuById(id: string): MenuItem | undefined {
   return ALL_MENUS.find((m) => m.id === id);
-}
-
-// 카카오맵 키워드 검색 URL 생성 (API 키 불필요)
-export function getKakaoMapUrl(keyword: string): string {
-  return `https://map.kakao.com/?q=${encodeURIComponent(keyword)}`;
 }
 
 // 룰렛 애니메이션에 표시할 음식 이름 목록 (20개 샘플)
